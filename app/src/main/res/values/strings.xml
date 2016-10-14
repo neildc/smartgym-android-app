@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">SmartGym3</string>
+    <string name="workout">Set your\r\nworkout</string>
+    <string-array name="exercises">
+        <item>Bench Press</item>
+        <item>Bicep Curls</item>
+        <item>Incline Bench Press</item>
+    </string-array>
+
+    <!--INSTRUCTIONS-->
+    <string name="doing_good">DOING\r\nGOOD!</string>
+    <string name="tilting">TILTING!\r\n</string>
+    <string name="abort">STOP\r\nNOW!</string>
+
+    <!--SOCKET.IO MESSAGE-->
+    <string name="action_leave">Leave</string>
+    <string name="action_send">Send</string>
+    <string name="prompt_message">Message</string>
+
+    <string name="connect">Connected</string>
+    <string name="disconnect">Disconnected, Please check your internet connection</string>
+    <string name="error_connect">Failed to connect</string>
+</resources>
