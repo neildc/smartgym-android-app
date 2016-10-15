@@ -39,11 +39,13 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_workout_guide);
         WorkoutApplication app = (WorkoutApplication) getApplication();
         mSocket = app.getSocket();
+
         Bundle b = getIntent().getExtras();
         if (b != null){
             reps = b.getInt("repcount");
         }
         setResources();
+        startWorkout();
     }
 
     @Override
@@ -57,7 +59,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         mSocket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.off(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.off("new message", onNewMessage);
-//        mSocket.off("user joined", onUserJoined);
+        mSocket.off("rep", onRepCall);
 //        mSocket.off("user left", onUserLeft);
 //        mSocket.off("typing", onTyping);
 //        mSocket.off("stop typing", onStopTyping);
@@ -73,47 +75,11 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cancelWorkout();
                 finish();
             }
         });
         setSocket();
-    }
-
-    private void changeBackgoundColor(int condition){
-        switch(condition){
-            case 0:
-                mLayout.setBackgroundColor(getResources().getColor(R.color.green));
-                break;
-            case 1:
-                mLayout.setBackgroundColor(getResources().getColor(R.color.orange));
-                break;
-            case 2:
-                mLayout.setBackgroundColor(getResources().getColor(R.color.red));
-                break;
-            default:
-                mLayout.setBackgroundColor(getResources().getColor(R.color.green));
-        }
-    }
-
-    private void decrementRepCount(){
-        reps = reps - 1;
-        repsLeft.setText(String.valueOf(reps) + " left");
-    }
-
-    private void changeInstruction(int condition){
-        switch(condition){
-            case 0:
-                instruction.setText(R.string.doing_good);
-                break;
-            case 1:
-                instruction.setText(R.string.tilting);
-                break;
-            case 2:
-                instruction.setText(R.string.abort);
-                break;
-            default:
-                instruction.setText(R.string.doing_good);
-        }
     }
 
     private void setSocket() {
@@ -124,12 +90,93 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         mSocket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         mSocket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
         mSocket.on("new message", onNewMessage);
-//        mSocket.on("user joined", onUserJoined);
+        mSocket.on("rep", onRepCall);
 //        mSocket.on("user left", onUserLeft);
 //        mSocket.on("typing", onTyping);
 //        mSocket.on("stop typing", onStopTyping);
         mSocket.connect();
     }
+
+//    PRIVATE FUNCTIONS
+
+    private void startWorkout(){
+        JSONObject workout = new JSONObject();
+        try {
+            workout.put("exercise", "Bench Press");
+            workout.put("weight", "60");
+            workout.put("rest_time", "30");
+            workout.put("sets", "3");
+            workout.put("reps_per_set", "10");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSocket.emit("new workout", workout);
+    }
+
+    private void setStart(){
+        mSocket.emit("set start");
+    }
+
+    private void setFinished(){
+        mSocket.emit("set finished");
+    }
+
+    private void cancelWorkout(){
+        mSocket.emit("cancel workout");
+    }
+
+    private void changeBackgroundColor(int condition){
+        switch(condition){
+            case Constants.OKAY:
+                mLayout.setBackgroundColor(getResources().getColor(R.color.green));
+                break;
+            case Constants.TILT:
+                mLayout.setBackgroundColor(getResources().getColor(R.color.orange));
+                break;
+            case Constants.ABORT:
+                mLayout.setBackgroundColor(getResources().getColor(R.color.red));
+                break;
+            default:
+                mLayout.setBackgroundColor(getResources().getColor(R.color.green));
+        }
+    }
+
+    private void decrementRepCount(){
+        reps = reps - 1;
+        repsLeft.setText(String.valueOf(reps) + " left");
+        if (reps == 0) {
+            setFinished();
+        }
+    }
+
+    private void changeInstruction(int condition, String direction){
+        switch(condition){
+            case Constants.OKAY:
+                instruction.setText(R.string.doing_good);
+                break;
+            case Constants.TILT:
+                if (direction.contentEquals("")){
+                    instruction.setText(R.string.tilting);
+                } else {
+                    if (direction.contentEquals("left")){
+                        instruction.setText(R.string.tilting + "LEFT!");
+                    } else if (direction.contentEquals("right")){
+                        instruction.setText(R.string.tilting + "RIGHT");
+                    } else {
+                        Log.wtf("WTF", "SOMETHING WENT WRONG IN CHANGE INSTRUCTION");
+                    }
+                }
+                break;
+            case Constants.ABORT:
+                instruction.setText(R.string.abort);
+                break;
+            default:
+                instruction.setText(R.string.doing_good);
+        }
+    }
+
+
+//    SOCKET EVENT LISTENERS
 
     private Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
@@ -140,6 +187,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
                     if(!isConnected) {
                         if(mUsername != null) {
                             mSocket.emit("add user", mUsername);
+                            Log.wtf("WTF","IT WORKED");
                         }
                         isConnected = true;
                     }
@@ -175,8 +223,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
 
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
-        public void call(final Object... args) {
-            runOnUiThread(new Runnable() {
+        public void call(final Object... args) {runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     JSONObject data = (JSONObject) args[0];
@@ -191,10 +238,54 @@ public class WorkoutGuideActivity extends AppCompatActivity {
                     if (message.contentEquals("background")){
                         Random r = new Random();
                         int i1 = r.nextInt(3 - 0) ;
-                        changeBackgoundColor(i1);
-                        changeInstruction(i1);
+                        changeBackgroundColor(i1);
+                        changeInstruction(i1, "");
                     } else if (message.contentEquals("reps")){
                         decrementRepCount();
+                    }
+                }
+            });
+        }
+    };
+
+    private Emitter.Listener onRepCall = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONObject data = (JSONObject) args[0];
+                    String message;
+                    String condition;
+                    String direction;
+                    try {
+                        message = data.getString("message");
+                        condition = data.getString("condition");
+                        direction = data.getString("direction");
+                    } catch (JSONException e){
+                        return;
+                    }
+
+                    if (message.contentEquals("rep")){
+                        switch (condition) {
+                            case "good":
+                                changeInstruction(Constants.OKAY, "");
+                                changeBackgroundColor(Constants.OKAY);
+                                decrementRepCount();
+                                break;
+                            case "tilt":
+                                changeInstruction(Constants.TILT, direction);
+                                changeBackgroundColor(Constants.TILT);
+                                break;
+                            case "abort":
+                                changeInstruction(Constants.ABORT, "");
+                                changeBackgroundColor(Constants.ABORT);
+                                break;
+                            default:
+                                return;
+                        }
+                    } else {
+                        return;
                     }
                 }
             });
