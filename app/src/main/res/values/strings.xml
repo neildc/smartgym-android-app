@@ -20,4 +20,7 @@
     <string name="connect">Connected</string>
     <string name="disconnect">Disconnected, Please check your internet connection</string>
     <string name="error_connect">Failed to connect</string>
+
+    <!--FACEBOOK-->
+    <string name="facebook_app_id">370949913245626</string>
 </resources>

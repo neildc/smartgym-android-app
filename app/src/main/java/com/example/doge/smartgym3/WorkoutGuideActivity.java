@@ -79,6 +79,8 @@ public class WorkoutGuideActivity extends AppCompatActivity {
                 finish();
             }
         });
+//        changeBackgroundColor(Constants.TILT);
+//        changeInstruction(Constants.TILT, '');
         setSocket();
     }
 
