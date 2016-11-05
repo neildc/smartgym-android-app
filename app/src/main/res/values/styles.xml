@@ -24,5 +24,12 @@
         <item name="android:layout_margin">5dp</item>
     </style>
 
+    <style name="ListCard">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
 
 </resources>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_dashboard"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.doge.smartgym3.DashboardActivity"
+    android:weightSum="1">
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="40dp"
+                android:layout_margin="24dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/circleView"
+                android:layout_weight="0.00" />
+
+            <TextView
+                android:text="TextView"
+                android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/welcomeText"
+                android:layout_weight="0.00" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:id="@+id/statusText"
+                android:layout_weight="0.00" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recentHeader"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.00"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/recent_exercises_card"
+                    android:layout_height="wrap_content"
+                    style="@style/ListCard"
+                    card_view:cardCornerRadius="2dp">
+
+                    <ListView
+                        android:id="@+id/recent_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#373A3F"
+                        android:dividerHeight="0.3dip">
+                    </ListView>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_weight="0.00" />
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/exercises_header"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="0.00"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/exercises_card"
+                    android:layout_height="wrap_content"
+                    style="@style/ListCard"
+                    card_view:cardCornerRadius="2dp">
+
+                    <ListView
+                        android:id="@+id/exercises_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#373A3F"
+                        android:dividerHeight="0.3dip">
+                    </ListView>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <!-- Footer aligned to bottom -->
+
+    <RelativeLayout
+        android:clickable="true"
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="WORKOUT"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+</RelativeLayout>

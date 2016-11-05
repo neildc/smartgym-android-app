@@ -1,6 +1,7 @@
 package com.example.doge.smartgym3;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 import android.provider.SyncStateContract;
 
 import com.facebook.login.LoginManager;
@@ -17,6 +18,7 @@ import io.socket.client.Socket;
 public class WorkoutApplication extends Application {
     private Socket mSocket;
     private String mName;
+    private Bitmap mProfilePic;
     {
         try {
             mSocket = IO.socket(Constants.CHAT_SERVER_URL);
@@ -26,6 +28,8 @@ public class WorkoutApplication extends Application {
         }
     }
 
+    public void setProfilePic(Bitmap profilePic) {mProfilePic = profilePic;}
+    public Bitmap getProfilePic() {return mProfilePic;}
     public void setName(String name) {mName = name;}
     public String getName() {return mName;}
     public Socket getSocket() {
