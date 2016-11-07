@@ -1,5 +1,6 @@
 package com.example.doge.smartgym3;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DashboardActivity extends AppCompatActivity {
     private WorkoutApplication app;
@@ -77,6 +79,11 @@ public class DashboardActivity extends AppCompatActivity {
         exerciseListView.setAdapter(adapter);
         setListViewHeightBasedOnItems(exerciseListView);
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     public static boolean setListViewHeightBasedOnItems(ListView listView) {
