@@ -8,6 +8,8 @@
     tools:context="com.example.doge.smartgym3.DashboardActivity"
     android:weightSum="1">
 
+
+
     <ScrollView
         android:id="@+id/container"
         android:layout_width="fill_parent"
@@ -18,14 +20,30 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="40dp"
-                android:layout_margin="24dp"
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/circleView"
-                android:layout_weight="0.00" />
+                android:layout_gravity="center_horizontal">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="40dp"
+                    android:layout_margin="24dp"
+                    android:layout_gravity="center_horizontal"
+                    android:id="@+id/circleView"
+                    android:layout_weight="0.00" />
+
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/circle_textview"
+                    android:text="1"
+                    android:gravity="center"
+                    android:textSize="25sp"
+                    android:layout_alignBottom="@+id/circleView"
+                    android:layout_alignRight="@id/circleView" />
+            </RelativeLayout>
+
 
             <TextView
                 android:text="TextView"

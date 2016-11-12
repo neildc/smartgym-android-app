@@ -36,38 +36,38 @@ public class WorkoutApplication extends Application {
                 throw new RuntimeException(e);
             }
         }
-        database = databaseSetup();
+//        database = databaseSetup();
     }
 
-    public SQLiteDatabase databaseSetup(){
-        SQLiteDatabase db = openOrCreateDatabase("SMARTGYM",MODE_PRIVATE,null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS User(" +
-                "Name           TEXT     NOT NULL," +
-                "Profile        TEXT     NOT NULL," +
-                "AccessToken    TEXT     NOT NULL);"
-        );
-        db.execSQL("CREATE TABLE IF NOT EXISTS Exercises(" +
-                "ID         INTEGER     NOT NULL," +
-                "Name       TEXT        NOT NULL," +
-                "Sets       INTEGER     NOT NULL," +
-                "Reps       INTEGER     NOT NULL," +
-                "RestTime   INTEGER     NOT NULL);"
-        );
-        db.execSQL("CREATE TABLE IF NOT EXISTS History(" +
-                "Exercise   INTEGER     NOT NULL," +
-                "Fail       BOOLEAN     NOT NULL," +
-                "Timestamp  DATETIME    NOT NULL," +
-                "FOREIGN KEY (Exercise) REFERENCES Exercises(ID));"
-        );
-        db.execSQL("CREATE TABLE ProgressionHistory(" +
-                "Exercise       INTEGER     NOT NULL," +
-                "WeightIncrease INTEGER     NOT NULL," +
-                "RepIncrease    INTEGER     NOT NULL," +
-                "Timestamp      DATETIME    NOT NULL," +
-                "FOREIGN KEY (Exercise) REFERENCES Exercises(ID));"
-        );
-        return db;
-    }
+//    public SQLiteDatabase databaseSetup(){
+//        SQLiteDatabase db = openOrCreateDatabase("SMARTGYM",MODE_PRIVATE,null);
+//        db.execSQL("CREATE TABLE IF NOT EXISTS User(" +
+//                "Name           TEXT     NOT NULL," +
+//                "Profile        TEXT     NOT NULL," +
+//                "AccessToken    TEXT     NOT NULL);"
+//        );
+//        db.execSQL("CREATE TABLE IF NOT EXISTS Exercises(" +
+//                "ID         INTEGER     NOT NULL," +
+//                "Name       TEXT        NOT NULL," +
+//                "Sets       INTEGER     NOT NULL," +
+//                "Reps       INTEGER     NOT NULL," +
+//                "RestTime   INTEGER     NOT NULL);"
+//        );
+//        db.execSQL("CREATE TABLE IF NOT EXISTS History(" +
+//                "Exercise   INTEGER     NOT NULL," +
+//                "Fail       BOOLEAN     NOT NULL," +
+//                "Timestamp  DATETIME    NOT NULL," +
+//                "FOREIGN KEY (Exercise) REFERENCES Exercises(ID));"
+//        );
+//        db.execSQL("CREATE TABLE ProgressionHistory(" +
+//                "Exercise       INTEGER     NOT NULL," +
+//                "WeightIncrease INTEGER     NOT NULL," +
+//                "RepIncrease    INTEGER     NOT NULL," +
+//                "Timestamp      DATETIME    NOT NULL," +
+//                "FOREIGN KEY (Exercise) REFERENCES Exercises(ID));"
+//        );
+//        return db;
+//    }
     public void setProfilePic(Bitmap profilePic) {mProfilePic = profilePic;}
     public Bitmap getProfilePic() {return mProfilePic;}
     public void setName(String name) {mName = name;}
