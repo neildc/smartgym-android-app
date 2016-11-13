@@ -36,6 +36,9 @@
         <activity
             android:name=".DashboardActivity"
             android:theme="@style/AppTheme.noActionBar" />
+        <activity
+            android:name=".NotificationsActivity"
+            android:theme="@style/AppTheme.noActionBar"></activity>
     </application>
 
 </manifest>
