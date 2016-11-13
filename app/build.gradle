@@ -10,11 +10,17 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
     }
     buildTypes {
+        debug{
+            buildConfigField("String", "API_BASE_URL", "http://localhost:8000/")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "API_BASE_URL", "http://localhost:8000/")
         }
     }
 }
@@ -39,4 +45,10 @@ dependencies {
     compile ('io.socket:socket.io-client:0.8.1') {
         exclude group: 'org.json', module: 'json'
     }
+//    START NEIL
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //END NEIL
+
 }

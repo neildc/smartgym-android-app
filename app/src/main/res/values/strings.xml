@@ -22,5 +22,9 @@
     <string name="error_connect">Failed to connect</string>
 
     <!--FACEBOOK-->
-    <string name="facebook_app_id">370949913245626</string>
+    <!--<string name="facebook_app_id">370949913245626</string>-->
+    <string name="facebook_app_id">607756739417069</string>
+    <string name="smartgym_backend_client_id">3k78JZQ38uAKc4qqIJ095aXzGzJSbGcKw8QZLsG2</string>
+    <string name="smartgym_backend_client_secret">mtGwIzyAbvp7OS2W5D3y9gzYJkixYkziczdlQAeEYLNssK3kMBiW4KcKK0MZ43lk4K6fyRkAXrJt50bJnx265BcqkV870uPACum2pnijpggqgWbFNsFVUPTt44IbZUtM</string>
+    <string name="internal_pref_smartgym_token_key">"internal_pref_smartgym_token_key"</string>
 </resources>
