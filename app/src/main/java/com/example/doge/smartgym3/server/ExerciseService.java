@@ -40,7 +40,10 @@ public interface ExerciseService {
         @Field("targetReps") int targetReps,
         @Field("targetSets") int targetSets,
         @Field("station") int stationId,
-        @Field("restTime") int restTime
+        @Field("restTime") int restTime,
+        @Field("weight") int weight,
+        @Field("exercise_type") String exercise_type
+
     );
 
 
