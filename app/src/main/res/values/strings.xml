@@ -27,4 +27,6 @@
     <string name="smartgym_backend_client_id">3k78JZQ38uAKc4qqIJ095aXzGzJSbGcKw8QZLsG2</string>
     <string name="smartgym_backend_client_secret">mtGwIzyAbvp7OS2W5D3y9gzYJkixYkziczdlQAeEYLNssK3kMBiW4KcKK0MZ43lk4K6fyRkAXrJt50bJnx265BcqkV870uPACum2pnijpggqgWbFNsFVUPTt44IbZUtM</string>
     <string name="internal_pref_smartgym_token_key">"internal_pref_smartgym_token_key"</string>
+
+    <string name="gcm_sender_id">916615009544</string>
 </resources>

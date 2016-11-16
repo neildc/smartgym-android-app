@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "916615009544",
+    "project_id": "smartgym-6733"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:916615009544:android:d1093eb0de132a99",
+        "android_client_info": {
+          "package_name": "com.example.doge.smartgym3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYIDIajLqLtZBdS5xFZ0ow8a6FZvXA9tA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

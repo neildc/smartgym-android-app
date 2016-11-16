@@ -62,5 +62,13 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+
+    compile "com.google.android.gms:play-services-gcm:9.6.1"
+
+
     //END NEIL
 }
+
+apply plugin: 'com.google.gms.google-services'
+
