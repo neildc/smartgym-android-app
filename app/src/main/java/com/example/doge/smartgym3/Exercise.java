@@ -9,11 +9,13 @@ public class Exercise {
     public int sets;
     public int reps;
     public int rest;
+    public int weight;
 
-    public Exercise(String name, int sets, int reps, int rest) {
+    public Exercise(String name, int sets, int reps, int rest, int weight) {
         this.exerciseName = name;
         this.sets = sets;
         this.reps = reps;
         this.rest = rest;
+        this.weight = weight;
     }
 }
