@@ -29,9 +29,13 @@ public class ExerciseListAdapter extends ArrayAdapter<Exercise>{
         // Lookup view for data population
         TextView exerciseName = (TextView) convertView.findViewById(R.id.exercise_name);
         TextView exerciseSet = (TextView) convertView.findViewById(R.id.exercise_set);
+        TextView exerciseWeight = (TextView) convertView.findViewById(R.id.exercise_weight);
+        TextView exerciseDate = (TextView) convertView.findViewById(R.id.exercise_date);
         // Populate the data into the template view using the data object
         exerciseName.setText(exercise.exerciseName);
         exerciseSet.setText(String.valueOf(exercise.reps) + " x " + String.valueOf(exercise.sets));
+        exerciseWeight.setText(String.valueOf(exercise.weight) + " kg");
+        exerciseDate.setText(exercise.date);
         // Return the completed view to render on screen
         return convertView;
     }

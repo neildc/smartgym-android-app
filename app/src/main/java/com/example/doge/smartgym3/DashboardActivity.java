@@ -140,7 +140,8 @@ public class DashboardActivity extends AppCompatActivity {
                                 exercise.get("targetSets").getAsInt(),
                                 exercise.get("targetReps").getAsInt(),
                                 exercise.get("restTime").getAsInt(),
-                                exercise.get("weight").getAsInt()
+                                exercise.get("weight").getAsInt(),
+                                exercise.get("created").getAsString()
                         ));
                     }
 
@@ -157,9 +158,6 @@ public class DashboardActivity extends AppCompatActivity {
                     // TODO: Error handling
                     Log.wtf("EXERCISE", "Response error");
                 }
-
-
-
             }
 
             @Override
