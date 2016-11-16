@@ -54,20 +54,47 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int reps = Integer.valueOf(reps_input.getText().toString());
-                int exerciseID = createExerciseOnServer(
-                        spinner_exercise_type.getSelectedItem().toString(),
-                        Integer.valueOf(weight_input.getText().toString()),
-                        Integer.valueOf(rest_input.getText().toString()),
-                        Integer.valueOf(sets_input.getText().toString()),
-                        reps
-                );
-                intent.putExtra("repcount", reps);
-                intent.putExtra("exercise_id", exerciseID);
 
-                startActivity(intent);
+                if (!allFieldsNotEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please fill in every field", Toast.LENGTH_LONG).show();
+                    // TODO: better error messaging
+                } else {
+
+                    int reps = Integer.valueOf(reps_input.getText().toString());
+                    int exerciseID = createExerciseOnServer(
+                            spinner_exercise_type.getSelectedItem().toString(),
+                            Integer.valueOf(weight_input.getText().toString()),
+                            Integer.valueOf(rest_input.getText().toString()),
+                            Integer.valueOf(sets_input.getText().toString()),
+                            reps
+                    );
+                    intent.putExtra("repcount", reps);
+                    intent.putExtra("exercise_id", exerciseID);
+
+                    startActivity(intent);
+                }
             }
         });
+    }
+
+    private boolean allFieldsNotEmpty() {
+
+        spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);
+        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
+        rest_input = (EditText) findViewById(R.id.new_exercise_rest);
+        sets_input = (EditText) findViewById(R.id.new_exercise_sets);
+        reps_input = (EditText) findViewById(R.id.new_exercise_reps);
+
+        if (
+            weight_input.getText().toString().isEmpty() ||
+            rest_input.getText().toString().isEmpty() ||
+            sets_input.getText().toString().isEmpty() ||
+            reps_input.getText().toString().isEmpty())
+            return false;
+        else {
+            return true;
+        }
+
     }
 
     private int createExerciseOnServer(String exercise, int weight, int restTime, int sets, int reps) {
