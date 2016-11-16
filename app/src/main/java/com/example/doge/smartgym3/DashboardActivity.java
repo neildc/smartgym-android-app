@@ -21,8 +21,6 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class DashboardActivity extends AppCompatActivity {
     private WorkoutApplication app;
-    private TextView mWelcomeText;
-    private TextView mStatusText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +117,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+    public void moveToNotifications(View notificationButton){
+        Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+        startActivity(intent);
+    }
 }
 
 

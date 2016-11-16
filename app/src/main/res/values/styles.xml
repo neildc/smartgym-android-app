@@ -15,6 +15,7 @@
     </style>
 
     <style name="AppTheme.noActionBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="Card">
