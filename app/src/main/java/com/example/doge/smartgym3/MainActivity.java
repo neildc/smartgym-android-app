@@ -77,19 +77,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private boolean emptyEditFeild(EditText ef) {
+        if (ef.getText().toString().isEmpty()) {
+            ef.setError("Can't be empty");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private boolean allFieldsNotEmpty() {
 
-        spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);
-        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
-        rest_input = (EditText) findViewById(R.id.new_exercise_rest);
-        sets_input = (EditText) findViewById(R.id.new_exercise_sets);
-        reps_input = (EditText) findViewById(R.id.new_exercise_reps);
+        if (emptyEditFeild(weight_input) ||
+            emptyEditFeild(rest_input) ||
+            emptyEditFeild(sets_input)||
+            emptyEditFeild(reps_input))
 
-        if (
-            weight_input.getText().toString().isEmpty() ||
-            rest_input.getText().toString().isEmpty() ||
-            sets_input.getText().toString().isEmpty() ||
-            reps_input.getText().toString().isEmpty())
             return false;
         else {
             return true;
