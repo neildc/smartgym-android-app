@@ -76,50 +76,61 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
-                        Log.wtf("WTF", String.valueOf(loginResult.getAccessToken()));
-                        Bundle parameters = new Bundle();
-                        parameters.putString("fields", "name, picture.type(normal)");
+        if (isLoggedInFacebook(accessToken)) {
 
-                        new GraphRequest(
-                                AccessToken.getCurrentAccessToken(),
-                                "/" + loginResult.getAccessToken().getUserId(),
-                                parameters,
-                                HttpMethod.GET,
-                                new GraphRequest.Callback() {
-                                    public void onCompleted(GraphResponse response) {
-                                        JSONObject object = response.getJSONObject();
-                                        try {
-                                            Bitmap profilePic = getFacebookProfilePicture(object.getJSONObject("picture").getJSONObject("data").getString("url"));
-                                            app.setProfilePic(profilePic);
-                                            app.setName(object.getString("name"));
-                                            Intent intent = new Intent(getApplicationContext(),  DashboardActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } catch (JSONException e) {
-                                            Log.wtf("WTF", e);
-                                        }
-                                    }
-                                }
-                        ).executeAsync();
-                    }
+            getUserDetailsAndProceedToDashboard(accessToken);
 
-                    @Override
-                    public void onCancel() {
-                        // App code
-                        Log.wtf("WTF", "CANCELLED");
-                    }
+        } else {
 
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                        Log.wtf("WTF","REJECTED");
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            // App code
+                            Log.wtf("WTF", String.valueOf(loginResult.getAccessToken()));
+                            getUserDetailsAndProceedToDashboard(loginResult.getAccessToken());
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            // App code
+                            Log.wtf("WTF", "CANCELLED");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            // App code
+                            Log.wtf("WTF", "REJECTED");
+                        }
+                    });
+        }
+    }
+
+    private void getUserDetailsAndProceedToDashboard(AccessToken accessToken) {
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "name, picture.type(normal)");
+
+        new GraphRequest(
+                accessToken,
+                "/" + accessToken.getUserId(),
+                parameters,
+                HttpMethod.GET,
+                new GraphRequest.Callback() {
+                    public void onCompleted(GraphResponse response) {
+                        JSONObject object = response.getJSONObject();
+                        try {
+                            Bitmap profilePic = getFacebookProfilePicture(object.getJSONObject("picture").getJSONObject("data").getString("url"));
+                            app.setProfilePic(profilePic);
+                            app.setName(object.getString("name"));
+                            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } catch (JSONException e) {
+                            Log.wtf("WTF", e);
+                        }
                     }
-                });
+                }
+        ).executeAsync();
     }
 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -153,4 +164,9 @@ public class LoginActivity extends AppCompatActivity {
         }
         return myBitmap;
     }
+
+    private boolean isLoggedInFacebook(AccessToken accessToken) {
+        return accessToken != null;
+    }
+
 }
