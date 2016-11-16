@@ -41,7 +41,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:entries="@array/exercises"
-                android:gravity="right">
+                android:gravity="right"
+                android:id="@+id/spinner_exercise_type">
             </Spinner>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -73,7 +74,8 @@
                 android:maxLength="5"
                 android:padding="12dp"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/weights_end_space" />
+                android:layout_toStartOf="@+id/weights_end_space"
+                android:id="@+id/new_exercise_weight" />
 
             <TextView
                 android:id="@+id/weights_unit"
@@ -123,7 +125,8 @@
                 android:maxLength="2"
                 android:padding="12dp"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/rest_time_end_space" />
+                android:layout_toStartOf="@+id/rest_time_end_space"
+                android:id="@+id/new_exercise_rest" />
 
             <TextView
                 android:id="@+id/rest_time_unit"
@@ -172,7 +175,8 @@
                 android:maxLength="2"
                 android:padding="12dp"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/sets_end_space" />
+                android:layout_toStartOf="@+id/sets_end_space"
+                android:id="@+id/new_exercise_sets" />
 
             <Space
                 android:id="@+id/sets_end_space"
@@ -209,7 +213,8 @@
                 android:maxLength="2"
                 android:padding="12dp"
                 android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/reps_end_space" />
+                android:layout_toStartOf="@+id/reps_end_space"
+                android:id="@+id/new_exercise_reps" />
 
             <Space
                 android:id="@+id/reps_end_space"
