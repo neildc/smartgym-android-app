@@ -16,8 +16,6 @@ import retrofit2.http.Path;
 
 public interface UserService {
 
-    @GET("/user/me/")
-    Call<JsonObject> getCurrentUser();
 
     @GET("/user/{id}/")
     Call<JsonObject> getUser(@Path("id") int id);

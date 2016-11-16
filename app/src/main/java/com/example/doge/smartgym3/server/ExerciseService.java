@@ -16,6 +16,9 @@ import retrofit2.http.Path;
 
 public interface ExerciseService {
 
+    @GET("/user/me/")
+    Call<JsonObject> getExercisesForCurrentUser();
+
     @GET("/exercise/{id}/")
     Call<JsonObject> getExercise(@Path("id") int id);
 
