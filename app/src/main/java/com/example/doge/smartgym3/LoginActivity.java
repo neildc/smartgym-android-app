@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.StrictMode;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.doge.smartgym3.util.TokenUtil;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -34,6 +36,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -106,9 +109,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 1. get the users details from facebook
+     * 2. convertTheFacebook accesstoken for an accesstoken on our backend
+     * 3. go to the next activity
+     */
     private void getUserDetailsAndProceedToDashboard(AccessToken accessToken) {
         Bundle parameters = new Bundle();
         parameters.putString("fields", "name, picture.type(normal)");
+
 
         new GraphRequest(
                 accessToken,
@@ -131,6 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
         ).executeAsync();
+
+        TokenUtil.getServerAccessTokenFromFacebookAccessToken(this.getApplicationContext(), accessToken);
+
     }
 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
