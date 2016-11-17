@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_login"
@@ -13,14 +13,6 @@
     tools:context="com.example.doge.smartgym3.LoginActivity">
 
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
-
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/loader"
         android:layout_width="wrap_content"
@@ -30,5 +22,33 @@
         android:visibility="invisible"
         />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_x="80dp"
+        android:layout_y="425dp" />
 
-</LinearLayout>
+    <TextView
+        android:text="Welcome To\n Smart Gym"
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:layout_x="3dp"
+        android:layout_y="321dp"
+        android:id="@+id/textView"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:layout_width="214dp"
+        android:layout_height="203dp"
+        app:srcCompat="@mipmap/panda"
+        android:layout_x="77dp"
+        android:layout_y="64dp"
+        android:id="@+id/imageView" />
+
+
+</AbsoluteLayout>

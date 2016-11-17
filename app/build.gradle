@@ -34,6 +34,7 @@ android {
             buildConfigField("String", "API_KEY", "\"3k78JZQ38uAKc4qqIJ095aXzGzJSbGcKw8QZLsG2\"")
             buildConfigField("String", "API_SECRET", "\"mtGwIzyAbvp7OS2W5D3y9gzYJkixYkziczdlQAeEYLNssK3kMBiW4KcKK0MZ43lk4K6fyRkAXrJt50bJnx265BcqkV870uPACum2pnijpggqgWbFNsFVUPTt44IbZUtM\"")
             signingConfig signingConfigs.release
+            debuggable true
         }
     }
 }
