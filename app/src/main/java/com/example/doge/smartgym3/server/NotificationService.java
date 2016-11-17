@@ -21,8 +21,13 @@ public interface NotificationService {
     Call<JsonArray> getNotificationsForCurrentUser();
 
 
+
+    /**
+     * 200 if results
+     * 204 if no reuslts
+     */
     @FormUrlEncoded
-    @POST("/brag/")
+    @POST("/notification/brag/")
     Call<JsonObject> brag(
             @Field("to") int to,
             @Field("weight") int weight,

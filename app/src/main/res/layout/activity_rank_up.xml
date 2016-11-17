@@ -103,14 +103,17 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="center">
+            android:gravity="center"
+            android:clickable="true">
 
             <TextView
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:text="Henry" />
+                android:text="Henry"
+                android:visibility="gone"
+                android:id="@+id/bragText0" />
             <Space
                 android:layout_width="120dp"
                 android:layout_height="match_parent" />
@@ -118,8 +121,11 @@
                 android:layout_width="60dp"
                 android:layout_height="23dp"
                 android:text="Brag"
+                android:visibility="gone"
+                android:onClick="sendBrag"
                 android:textColor="@color/white"
-                android:background="@drawable/rounded_button"/>
+                android:background="@drawable/rounded_button"
+                android:id="@+id/bragBtn0" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -132,7 +138,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:text="Bill" />
+                android:text="Bill"
+                android:visibility="gone"
+                android:id="@+id/bragText1"/>
             <Space
                 android:layout_width="120dp"
                 android:layout_height="match_parent" />
@@ -140,8 +148,11 @@
                 android:layout_width="60dp"
                 android:layout_height="23dp"
                 android:text="Brag"
+                android:onClick="sendBrag"
+                android:visibility="gone"
                 android:textColor="@color/white"
-                android:background="@drawable/rounded_button"/>
+                android:background="@drawable/rounded_button"
+                android:id="@+id/bragBtn1" />
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
@@ -154,7 +165,10 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:text="Jason" />
+                android:text="Jason"
+                android:visibility="gone"
+                android:id="@+id/bragText2" />
+
             <Space
                 android:layout_width="120dp"
                 android:layout_height="match_parent" />
@@ -162,8 +176,11 @@
                 android:layout_width="60dp"
                 android:layout_height="23dp"
                 android:text="Brag"
+                android:onClick="sendBrag"
+                android:visibility="gone"
                 android:textColor="@color/white"
-                android:background="@drawable/rounded_button"/>
+                android:background="@drawable/rounded_button"
+                android:id="@+id/bragBtn2" />
         </LinearLayout>
 
     </LinearLayout>
@@ -175,7 +192,8 @@
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:background="@color/green"
-        android:gravity="center" >
+        android:gravity="center"
+        android:onClick="closeRankUpActivity">
 
         <TextView
             android:layout_width="wrap_content"

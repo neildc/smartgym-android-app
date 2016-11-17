@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setResources() {
-        intent = new Intent(this, WorkoutGuideActivity.class);
+//        intent = new Intent(this, WorkoutGuideActivity.class);
+        intent = new Intent(this, RankUpActivity.class);
         startButton = (Button) findViewById(R.id.go_button);
         spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);
         weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
@@ -59,17 +60,21 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please fill in every field", Toast.LENGTH_LONG).show();
                     // TODO: better error messaging
                 } else {
+                    String exercise_type = spinner_exercise_type.getSelectedItem().toString();
+                    int weight = Integer.valueOf(weight_input.getText().toString());
 
                     int reps = Integer.valueOf(reps_input.getText().toString());
                     int exerciseID = createExerciseOnServer(
-                            spinner_exercise_type.getSelectedItem().toString(),
-                            Integer.valueOf(weight_input.getText().toString()),
+                            exercise_type,
+                            weight,
                             Integer.valueOf(rest_input.getText().toString()),
                             Integer.valueOf(sets_input.getText().toString()),
                             reps
                     );
                     intent.putExtra("repcount", reps);
                     intent.putExtra("exercise_id", exerciseID);
+                    intent.putExtra("exercise_type", exercise_type);
+                    intent.putExtra("weight", weight);
 
                     startActivity(intent);
                 }
@@ -118,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
             return -1;
         }
     }
-
 
 
 

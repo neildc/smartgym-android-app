@@ -24,6 +24,7 @@ package="com.example.doge.smartgym3">
     <activity android:name=".LoginActivity" android:theme="@style/AppTheme.noActionBar" />
     <activity android:name=".DashboardActivity" android:theme="@style/AppTheme.noActionBar" />
     <activity android:name=".NotificationsActivity" android:theme="@style/AppTheme.noActionBar"></activity>
+    <activity android:name=".RankUpActivity" android:theme="@style/AppTheme.noActionBar"></activity>
 
     <!--GCM STUFF-->
     <receiver
