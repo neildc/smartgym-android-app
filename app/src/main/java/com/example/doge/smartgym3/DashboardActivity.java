@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -178,8 +179,11 @@ public class DashboardActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
 
-
                 if (response.isSuccessful()) {
+
+                    int numNotifications= response.body().get("notifications_count").getAsInt();
+                    updateNotificationBubble(numNotifications);
+
                     JsonArray exercisesJSONArray = response.body().get("exercises").getAsJsonArray();
                     ArrayList<Exercise> exerciseArrayList = new ArrayList<Exercise>();
 
@@ -312,6 +316,12 @@ public class DashboardActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+
+    public void updateNotificationBubble(int count) {
+        TextView bubble = (TextView) findViewById(R.id.notificationBubble);
+        bubble.setText(Integer.toString(count));
     }
 
 }
