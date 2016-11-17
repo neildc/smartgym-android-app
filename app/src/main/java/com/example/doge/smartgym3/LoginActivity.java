@@ -36,7 +36,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
+import java.util.Arrays;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("email", "user_friends"));
 
         accessTokenTracker = new AccessTokenTracker() {
             @Override
