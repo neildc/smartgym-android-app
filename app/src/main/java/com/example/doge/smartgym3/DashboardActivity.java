@@ -13,6 +13,7 @@ import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -113,36 +114,6 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
-
-        //GCMEND
-
-//        ArrayList<Exercise> arrayOfRecentExercises = new ArrayList<>();
-//
-//        Exercise newExercise;
-//        newExercise = new Exercise("Bicep Curl", 3, 10, 30);
-//        arrayOfRecentExercises.add(newExercise);
-//        newExercise = new Exercise("Bench Press", 3, 10, 30);
-//        arrayOfRecentExercises.add(newExercise);
-//        newExercise = new Exercise("Bent Over Rows", 3, 10, 30);
-//        arrayOfRecentExercises.add(newExercise);
-//
-//        ExerciseListAdapter recentAdapter = new ExerciseListAdapter(this, arrayOfRecentExercises);
-//        ListView recentListView = (ListView) findViewById(R.id.recent_list);
-//        recentListView.setAdapter(recentAdapter);
-//        setListViewHeightBasedOnItems(recentListView);
-//
-//        ArrayList<Exercise> arrayOfExercises = new ArrayList<>();
-//
-//        newExercise = new Exercise("Bicep Curl", 3, 10, 30);
-//        arrayOfExercises.add(newExercise);
-//        newExercise = new Exercise("Bench Press", 3, 10, 30);
-//        arrayOfExercises.add(newExercise);
-//        newExercise = new Exercise("Bent Over Rows", 3, 10, 30);
-//        arrayOfExercises.add(newExercise);
-
-
-
-
     }
 
     public void updateExercises() {
@@ -185,7 +156,7 @@ public class DashboardActivity extends AppCompatActivity {
                     updateNotificationBubble(numNotifications);
 
                     JsonArray exercisesJSONArray = response.body().get("exercises").getAsJsonArray();
-                    ArrayList<Exercise> exerciseArrayList = new ArrayList<Exercise>();
+                    final ArrayList<Exercise> exerciseArrayList = new ArrayList<Exercise>();
 
                     for (int i = 0; i < exercisesJSONArray.size(); i++) {
                         JsonObject exercise = exercisesJSONArray.get(i).getAsJsonObject();
@@ -195,7 +166,9 @@ public class DashboardActivity extends AppCompatActivity {
                                 exercise.get("targetReps").getAsInt(),
                                 exercise.get("restTime").getAsInt(),
                                 exercise.get("weight").getAsInt(),
-                                exercise.get("created").getAsString()
+                                exercise.get("created").getAsString(),
+                                exercise.get("id").getAsInt()
+
                         ));
                     }
 
@@ -203,6 +176,21 @@ public class DashboardActivity extends AppCompatActivity {
                     ListView exerciseListView = (ListView) findViewById(R.id.exercises_list);
                     exerciseListView.setAdapter(adapter);
                     setListViewHeightBasedOnItems(exerciseListView);
+
+                    exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int pos,
+                                                long item) {
+                            Exercise clickedOnEx = exerciseArrayList.get(pos);
+
+                            Intent intent = new Intent(
+                                    DashboardActivity.this,
+                                    ExerciseDetailActivity.class);
+                            intent.putExtra("exercise_id", clickedOnEx.id);
+                            startActivity(intent);
+                        }
+                    });
 
                     ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
                     mProgressBar.setVisibility(ProgressBar.INVISIBLE);

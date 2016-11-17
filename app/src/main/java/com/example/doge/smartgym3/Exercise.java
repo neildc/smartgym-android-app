@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class Exercise {
+    public int id;
     public String exerciseName;
     public int sets;
     public int reps;
@@ -14,7 +15,8 @@ public class Exercise {
     public int weight;
     public String date;
 
-    public Exercise(String name, int sets, int reps, int rest, int weight, String date) {
+    public Exercise(String name, int sets, int reps, int rest, int weight, String date, int id) {
+        this.id = id;
         this.exerciseName = name;
         this.sets = sets;
         this.reps = reps;
