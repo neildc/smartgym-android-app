@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/SmartGym3.iml" filepath="$PROJECT_DIR$/SmartGym3.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/smartgym-app.iml" filepath="$PROJECT_DIR$/smartgym-app.iml" />
     </modules>
   </component>
 </project>

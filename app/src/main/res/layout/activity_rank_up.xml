@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_rank_up"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.doge.smartgym3.RankUpActivity">
+
+    <Space
+        android:id="@+id/space0"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <ImageView
+        android:id="@+id/rank_up_graphic"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/colorAccent"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/space0"
+        android:layout_centerHorizontal="true" />
+
+    <Space
+        android:id="@+id/space1"
+        android:layout_below="@id/rank_up_graphic"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:id="@+id/increase"
+        android:layout_below="@id/space1"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp" >
+
+        <TextView
+            android:id="@+id/prev_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="40sp"
+            android:text="10kg"/>
+
+        <LinearLayout
+            android:id="@+id/increase_graphic"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="+2"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/new_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="40sp"
+            android:text="12kg"/>
+    </LinearLayout>
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_below="@id/increase"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <Button
+        android:id="@+id/share_button"
+        android:layout_below="@id/space2"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_share_button"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:text="SHARE" />
+
+    <LinearLayout
+        android:id="@+id/brag_area"
+        android:layout_below="@id/share_button"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Henry" />
+            <Space
+                android:layout_width="120dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="23dp"
+                android:text="Brag"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Bill" />
+            <Space
+                android:layout_width="120dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="23dp"
+                android:text="Brag"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:text="Jason" />
+            <Space
+                android:layout_width="120dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="23dp"
+                android:text="Brag"
+                android:textColor="@color/white"
+                android:background="@drawable/rounded_button"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:clickable="true"
+        android:id="@+id/done_footer"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/green"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="DONE"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
