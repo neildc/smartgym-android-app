@@ -1,8 +1,11 @@
 package com.example.doge.smartgym3;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,8 +30,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.DELETE;
 
 public class NotificationsActivity extends AppCompatActivity {
+
+    String TAG = NotificationsActivity.class.getName();
 
     private WorkoutApplication app;
 
@@ -169,8 +175,9 @@ public class NotificationsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int pos,
                                     long item) {
 
-
                 Notification n = notificationArrayList.get(pos);
+
+                deleteNotification(n);
 
                 if (n.getClass() == BragNotification.class) {
 
@@ -183,6 +190,28 @@ public class NotificationsActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+
+            }
+        });
+    }
+
+    private void deleteNotification(Notification n) {
+        NotificationService notificationService = ServiceGenerator.createService(
+                NotificationService.class,
+                TokenUtil.getAccessTokenFromSharedPreferences(NotificationsActivity.this)
+        );
+
+        Call<Integer> call = notificationService.deleteNotification(n.remote_id);
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                Log.d(TAG, "Delete notification result = " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Log.e(TAG, "Delete notification failed");
+                Log.e(TAG, t.getMessage());
 
             }
         });

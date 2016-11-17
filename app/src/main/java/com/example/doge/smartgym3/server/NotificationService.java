@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -20,7 +21,8 @@ public interface NotificationService {
     @GET("/notification/me/")
     Call<JsonArray> getNotificationsForCurrentUser();
 
-
+    @DELETE("/notification/{id}/")
+    Call<Integer> deleteNotification(@Path("id") int id);
 
     /**
      * 200 if results
@@ -34,6 +36,8 @@ public interface NotificationService {
             @Field("exercise") String exercise_type,
             @Field("exerciseID") int exercise_id
     );
+
+
 
 }
 
