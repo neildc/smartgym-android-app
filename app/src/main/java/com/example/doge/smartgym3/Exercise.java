@@ -24,4 +24,6 @@ public class Exercise {
         this.weight = weight;
         this.date = date;
     }
+
+
 }

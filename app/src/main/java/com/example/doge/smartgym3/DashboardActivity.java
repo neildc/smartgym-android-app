@@ -49,6 +49,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "DashboardActivity";
+    int user_id;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 //    private ProgressBar mRegistrationProgressBar;
@@ -63,9 +64,7 @@ public class DashboardActivity extends AppCompatActivity {
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.circleView);
         TextView mWelcomeText = (TextView) findViewById(R.id.welcomeText);
         TextView mStatusText = (TextView) findViewById(R.id.statusText);
-        TextView mRecentHeader = (TextView) findViewById(R.id.recentHeader);
         TextView mExercisesHeader = (TextView) findViewById(R.id.exercises_header);
-        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
 
         RelativeLayout mFooter = (RelativeLayout) findViewById(R.id.footer);
         mFooter.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +78,9 @@ public class DashboardActivity extends AppCompatActivity {
         profilePic.setImageBitmap(app.getProfilePic());
         mWelcomeText.setText("Welcome back , " + app.getName());
         mStatusText.setText("Today is : ARMS");
-        mRecentHeader.setText("Recent");
-        mExercisesHeader.setText("Exercises");
-        mProgressBar.setIndeterminate(true);
+        mExercisesHeader.setText("Recent Exercises");
 
         //GCM
-//        mRegistrationProgressBar = (ProgressBar) findViewById(R.id.registrationProgressBar);
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -116,35 +112,11 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    public void updateExercises() {
+    private void updateExercises() {
 
-        ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
-        mProgressBar.setVisibility(ProgressBar.VISIBLE);
         String serverAccessToken = TokenUtil.getAccessTokenFromSharedPreferences(this.getApplicationContext());
         final ExerciseService exerciseService = ServiceGenerator.createService(ExerciseService.class, serverAccessToken);
         Call<JsonObject> call = exerciseService.getExercisesForCurrentUser();
-
-        //        {
-        //            "id": 2,
-        //                "exercises": [
-        //                    {
-        //                        "user": 2,
-        //                            "id": 1,
-        //                            "exercise_type": "",
-        //                            "targetReps": 5,
-        //                            "targetSets": 5,
-        //                            "restTime": 5,
-        //                            "station": 1,
-        //                            "weight": 30,
-        //                            "sets": [
-        //                                {
-        //                                    "id": 1,
-        //                                        "successfulReps": 4,
-        //                                        "time": 30,
-        //                                        "exercise": 1
-        //                                },
-        //                            ]
-        //                    },
 
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -153,6 +125,7 @@ public class DashboardActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     int numNotifications= response.body().get("notifications_count").getAsInt();
+                    setUser_id(response.body().get("id").getAsInt());
                     updateNotificationBubble(numNotifications);
 
                     JsonArray exercisesJSONArray = response.body().get("exercises").getAsJsonArray();
@@ -175,12 +148,10 @@ public class DashboardActivity extends AppCompatActivity {
                     ExerciseListAdapter adapter = new ExerciseListAdapter(DashboardActivity.this, exerciseArrayList);
                     ListView exerciseListView = (ListView) findViewById(R.id.exercises_list);
                     exerciseListView.setAdapter(adapter);
-                    setListViewHeightBasedOnItems(exerciseListView);
 
+                    ExerciseListAdapter.setListViewHeightBasedOnItems(exerciseListView);
                     setItemOnClickListener(exerciseArrayList, exerciseListView);
 
-                    ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
-                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
 
                 } else {
@@ -195,9 +166,6 @@ public class DashboardActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
     }
 
@@ -225,38 +193,6 @@ public class DashboardActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public static boolean setListViewHeightBasedOnItems(ListView listView) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter != null) {
-
-            int numberOfItems = listAdapter.getCount();
-
-            // Get total height of all items.
-            int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
-                View item = listAdapter.getView(itemPos, null, listView);
-                item.measure(0, 0);
-                totalItemsHeight += item.getMeasuredHeight();
-            }
-
-            // Get total height of all item dividers.
-            int totalDividersHeight = listView.getDividerHeight() *
-                    (numberOfItems - 1);
-
-            // Set list height.
-            ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = totalItemsHeight + totalDividersHeight;
-            listView.setLayoutParams(params);
-            listView.requestLayout();
-
-            return true;
-
-        } else {
-            return false;
-        }
-
-    }
 
     public void moveToNotifications(View notificationButton){
         Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
@@ -310,6 +246,17 @@ public class DashboardActivity extends AppCompatActivity {
         return true;
     }
 
+    public void setUser_id(int id) {
+        this.user_id = id;
+    }
+
+    public void goToAllExercisesForUser(View v) {
+        Intent intent = new Intent(
+                DashboardActivity.this,
+                AllExercisesActivity.class);
+        intent.putExtra("user_id", this.user_id);
+        startActivity(intent);
+    }
 
     public void updateNotificationBubble(int count) {
         TextView bubble = (TextView) findViewById(R.id.notificationBubble);

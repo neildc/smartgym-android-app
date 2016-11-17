@@ -49,11 +49,9 @@
         <activity
             android:name=".RankUpActivity"
             android:theme="@style/AppTheme.noActionBar" />
-
         <activity
             android:name=".ExerciseDetailActivity"
             android:theme="@style/AppTheme.noActionBar" />
-
 
         <!-- GCM STUFF -->
         <receiver
@@ -83,9 +81,12 @@
         </service>
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <!-- END GCM -->
+        <activity
+            android:name=".AllExercisesActivity"
+            android:theme="@style/AppTheme.noActionBar" />
     </application>
 
 </manifest>

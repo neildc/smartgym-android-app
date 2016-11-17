@@ -1,5 +1,6 @@
 package com.example.doge.smartgym3.server;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -18,6 +19,9 @@ public interface ExerciseService {
 
     @GET("/user/me/")
     Call<JsonObject> getExercisesForCurrentUser();
+
+    @GET("/user/{id}/exercises/")
+    Call<JsonArray> getExercisesForUser(@Path("id")int id);
 
     @GET("/exercise/{id}/")
     Call<JsonObject> getExercise(@Path("id") int id);
