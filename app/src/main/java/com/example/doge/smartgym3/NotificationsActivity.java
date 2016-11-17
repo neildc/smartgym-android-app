@@ -1,10 +1,13 @@
 package com.example.doge.smartgym3;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.doge.smartgym3.server.NotificationService;
@@ -38,17 +41,6 @@ public class NotificationsActivity extends AppCompatActivity {
         this.setSupportActionBar(myToolbar);
         this.getSupportActionBar().setTitle("Notifications");
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ArrayList<Notification> arrayOfRecentNotifications = new ArrayList<>();
-
-//        Notification newNotification;
-////        newNotification = new Notification(null, "brag", 300, "Bicep Curls", "Jason", null);
-////        arrayOfRecentNotifications.add(newNotification);
-////        newNotification = new Notification(null, "friend_join", 0, null, "Bill", app.getProfilePic());
-////        arrayOfRecentNotifications.add(newNotification);
-////        newNotification = new Notification(null, "friend_join", 0, null, "Henry", app.getProfilePic());
-//        arrayOfRecentNotifications.add(newNotification);
-
 
     }
 
@@ -124,10 +116,8 @@ public class NotificationsActivity extends AppCompatActivity {
                     ListView notificationListView = (ListView) findViewById(R.id.notification_list);
                     notificationListView.setAdapter(recentAdapter);
 
-//                    setListViewHeightBasedOnItems(notificationListView);
+                    setItemOnClickListener(notificationArrayList, notificationListView);
 
-//                    ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
-//                    mProgressBar.setVisibility(ProgressBar.INVISIBLE);
 
                 } else {
                     // TODO: Error handling
@@ -147,28 +137,54 @@ public class NotificationsActivity extends AppCompatActivity {
         String data = notification.get("data").getAsString();
         String exercise;
         int weight;
-        int from;
-        String name;
+        int id = notification.get("id").getAsInt();
+        int exercise_id;
+        String from_name;
 
         try {
             JSONObject object = (JSONObject) new JSONTokener(data).nextValue();
             exercise = object.getString("exercise");
-//                            JSONArray locations = object.getJSONArray("locations");
+            exercise_id = object.getInt("exerciseID");
             weight = object.getInt("weight");
-            from = object.getInt("from_id");
-            name = object.getString("from_first");
+            from_name = object.getString("from_name");
 
-            notificationArrayList.add(new Notification(
-                    notification.get("message").getAsString(),
+            notificationArrayList.add(new BragNotification(
                     Notification.BRAG,
-                    weight,
+                    id,
                     exercise,
-                    from,
-                    name,
-                    null
+                    exercise_id,
+                    weight,
+                    from_name
             ));
         } catch (JSONException e) {
             Log.d("JSON", e.getMessage());
         }
+    }
+
+
+    private void setItemOnClickListener(final ArrayList<Notification> notificationArrayList, ListView notificationListView) {
+        notificationListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos,
+                                    long item) {
+
+
+                Notification n = notificationArrayList.get(pos);
+
+                if (n.getClass() == BragNotification.class) {
+
+                    BragNotification brag = (BragNotification) n;
+
+                    Intent intent = new Intent(
+                            NotificationsActivity.this,
+                            ExerciseDetailActivity.class);
+                    intent.putExtra("exercise_id", brag.exercise_id);
+                    startActivity(intent);
+
+                }
+
+            }
+        });
     }
 }

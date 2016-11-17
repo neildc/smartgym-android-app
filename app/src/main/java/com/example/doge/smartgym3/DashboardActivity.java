@@ -177,20 +177,7 @@ public class DashboardActivity extends AppCompatActivity {
                     exerciseListView.setAdapter(adapter);
                     setListViewHeightBasedOnItems(exerciseListView);
 
-                    exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int pos,
-                                                long item) {
-                            Exercise clickedOnEx = exerciseArrayList.get(pos);
-
-                            Intent intent = new Intent(
-                                    DashboardActivity.this,
-                                    ExerciseDetailActivity.class);
-                            intent.putExtra("exercise_id", clickedOnEx.id);
-                            startActivity(intent);
-                        }
-                    });
+                    setItemOnClickListener(exerciseArrayList, exerciseListView);
 
                     ProgressBar mProgressBar = (ProgressBar) findViewById(R.id.progressBarExerciseList);
                     mProgressBar.setVisibility(ProgressBar.INVISIBLE);
@@ -212,6 +199,23 @@ public class DashboardActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void setItemOnClickListener(final ArrayList<Exercise> exerciseArrayList, ListView exerciseListView) {
+        exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int pos,
+                                    long item) {
+                Exercise clickedOnEx = exerciseArrayList.get(pos);
+
+                Intent intent = new Intent(
+                        DashboardActivity.this,
+                        ExerciseDetailActivity.class);
+                intent.putExtra("exercise_id", clickedOnEx.id);
+                startActivity(intent);
+            }
+        });
     }
 
 //    private ArrayList<Exercise> downloadUsers

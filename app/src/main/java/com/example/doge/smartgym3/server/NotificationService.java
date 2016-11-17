@@ -31,7 +31,8 @@ public interface NotificationService {
     Call<JsonObject> brag(
             @Field("to") int to,
             @Field("weight") int weight,
-            @Field("exercise") String exercise_type
+            @Field("exercise") String exercise_type,
+            @Field("exerciseID") int exercise_id
     );
 
 }

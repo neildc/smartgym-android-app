@@ -36,6 +36,7 @@ public class RankUpActivity extends AppCompatActivity {
     final int NUM_RESULTS = 3;
     int weight;
     String exercise;
+    int exercise_id;
 
     TextView[] textViews = new TextView[NUM_RESULTS];
     Button[] bragButtons = new Button[NUM_RESULTS];
@@ -60,6 +61,7 @@ public class RankUpActivity extends AppCompatActivity {
         Intent intent = getIntent();
         this.exercise = intent.getStringExtra("exercise_type");
         this.weight = intent.getIntExtra("weight", 0);
+        this.exercise_id = intent.getIntExtra("exercise_id", 0);
         getFriendsToBragTo(this.exercise, this.weight);
     }
 
@@ -145,7 +147,8 @@ public class RankUpActivity extends AppCompatActivity {
                 Call<JsonObject> call = notificationService.brag(
                         userIds[i],
                         weight,
-                        exercise
+                        exercise,
+                        exercise_id
                 );
 
                 call.enqueue(new Callback<JsonObject>() {

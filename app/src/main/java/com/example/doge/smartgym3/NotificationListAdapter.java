@@ -39,19 +39,19 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         CircleImageView profilePic = (CircleImageView) convertView.findViewById(R.id.friendProfilePic);
 
         // Populate the data into the template view using the data object
-        if (notification.type.equals("brag")){
-            brag(notification, messageTextView, weighTextView, profilePic);
+        if (notification.getClass() == BragNotification.class){
+            brag((BragNotification)notification, messageTextView, weighTextView, profilePic);
 
-        } else if (notification.type.equals("friend_join")) {
-            friend_join(notification, messageTextView, weighTextView, profilePic);
+        } else if (notification.getClass() == NewFriendNotification.class) {
+            friend_join((NewFriendNotification)notification, messageTextView, weighTextView, profilePic);
         }
 
         // Return the completed view to render on screen
         return convertView;
     }
 
-    private void brag(Notification notification, TextView message, TextView weight, CircleImageView profilePic) {
-        String s = notification.who_from_name + " does heavier " + notification.exercise + "!";
+    private void brag(BragNotification notification, TextView message, TextView weight, CircleImageView profilePic) {
+        String s = notification.from_name + " does heavier " + notification.exercise + "!";
         SpannableString notificationText = new SpannableString(s);
         notificationText.setSpan(new UnderlineSpan(), s.length() - 1 - notification.exercise.length(), s.length(), 0);
         message.setText(notificationText);
@@ -64,9 +64,10 @@ public class NotificationListAdapter extends ArrayAdapter<Notification> {
         profilePic.setVisibility(View.GONE);
     }
 
-    private void friend_join(Notification notification, TextView message, TextView weight, CircleImageView profilePic) {
-        message.setText(notification.who_from + " has joined !");
-        profilePic.setImageBitmap(notification.who_from_profile_pic);
+    private void friend_join(NewFriendNotification notification, TextView message, TextView weight, CircleImageView profilePic) {
+        message.setText(notification.name + " has joined !");
+        // TODO : Get facebook profile image from uid
+        profilePic.setImageBitmap(null);
         weight.setVisibility(View.GONE);
         profilePic.setVisibility(View.VISIBLE);
     }
