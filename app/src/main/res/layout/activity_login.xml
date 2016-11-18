@@ -32,23 +32,23 @@
         android:layout_x="80dp"
         android:layout_y="425dp" />
 
+    <ImageView
+        android:layout_width="393dp"
+        android:layout_height="203dp"
+        app:srcCompat="@mipmap/panda"
+        android:layout_x="-24dp"
+        android:layout_y="79dp"
+        android:id="@+id/imageView" />
+
     <TextView
         android:text="Welcome To\n Smart Gym"
         android:layout_width="match_parent"
         android:layout_height="95dp"
-        android:layout_x="3dp"
-        android:layout_y="321dp"
+        android:layout_x="5dp"
+        android:layout_y="335dp"
         android:id="@+id/textView"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
         android:textAlignment="center" />
-
-    <ImageView
-        android:layout_width="214dp"
-        android:layout_height="203dp"
-        app:srcCompat="@mipmap/panda"
-        android:layout_x="77dp"
-        android:layout_y="64dp"
-        android:id="@+id/imageView" />
 
 
 </AbsoluteLayout>
