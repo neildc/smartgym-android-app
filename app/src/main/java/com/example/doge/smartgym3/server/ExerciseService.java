@@ -24,6 +24,25 @@ public interface ExerciseService {
     @GET("/user/{id}/exercises/")
     Call<JsonArray> getExercisesForUser(@Path("id")int id);
 
+    /**
+     {
+         "user": {
+             "id": 3,
+             "first_name": "Patricia"
+         },
+         "id": 5,
+         "created": "2016-11-16T07:20:44.369428Z",
+         "exercise_type": "bench",
+         "targetReps": 5,
+         "targetSets": 5,
+         "restTime": 5,
+         "station": 1,
+         "weight": 100
+     },
+     */
+    @GET("/user/getFriendsExercises/")
+    Call<JsonArray> getFriendsExercises();
+
     @GET("/exercise/{id}/")
     Call<JsonObject> getExercise(@Path("id") int id);
 

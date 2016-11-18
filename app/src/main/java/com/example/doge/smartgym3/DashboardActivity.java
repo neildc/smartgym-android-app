@@ -9,19 +9,12 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.doge.smartgym3.gcm.RegistrationIntentService;
 import com.example.doge.smartgym3.server.ExerciseService;
@@ -30,13 +23,9 @@ import com.example.doge.smartgym3.util.TokenUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -64,7 +53,8 @@ public class DashboardActivity extends AppCompatActivity {
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.circleView);
         TextView mWelcomeText = (TextView) findViewById(R.id.welcomeText);
         TextView mStatusText = (TextView) findViewById(R.id.statusText);
-        TextView mExercisesHeader = (TextView) findViewById(R.id.exercises_header);
+        TextView mUsersExercisesHeader = (TextView) findViewById(R.id.exercises_header);
+        TextView mFriendsExercisesHeader = (TextView) findViewById(R.id.friends_exercise_header);
 
         RelativeLayout mFooter = (RelativeLayout) findViewById(R.id.footer);
         mFooter.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +68,8 @@ public class DashboardActivity extends AppCompatActivity {
         profilePic.setImageBitmap(app.getProfilePic());
         mWelcomeText.setText("Welcome back , " + app.getName());
         mStatusText.setText("Today is : ARMS");
-        mExercisesHeader.setText("Recent Exercises");
+        mUsersExercisesHeader.setText("Your Recent Exercises");
+        mFriendsExercisesHeader.setText("Friends Recent Exercises");
 
         //GCM
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -112,7 +103,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    private void updateExercises() {
+    private void updateUsersExercises() {
 
         String serverAccessToken = TokenUtil.getAccessTokenFromSharedPreferences(this.getApplicationContext());
         final ExerciseService exerciseService = ServiceGenerator.createService(ExerciseService.class, serverAccessToken);
@@ -169,6 +160,64 @@ public class DashboardActivity extends AppCompatActivity {
 
     }
 
+
+    private void updateFriendsExercises() {
+
+        String serverAccessToken = TokenUtil.getAccessTokenFromSharedPreferences(this.getApplicationContext());
+        final ExerciseService exerciseService = ServiceGenerator.createService(ExerciseService.class, serverAccessToken);
+        Call<JsonArray> call = exerciseService.getFriendsExercises();
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                if (response.isSuccessful()) {
+
+
+                    JsonArray exercisesJSONArray = response.body().getAsJsonArray();
+                    final ArrayList<Exercise> friendsExerciseArrayList = new ArrayList<>();
+                    for (int i = 0; i < exercisesJSONArray.size(); i++) {
+
+                        JsonObject exercise = exercisesJSONArray.get(i).getAsJsonObject();
+
+                        friendsExerciseArrayList.add(new Exercise(
+                                exercise.get("exercise_type").getAsString(),
+                                exercise.get("targetSets").getAsInt(),
+                                exercise.get("targetReps").getAsInt(),
+                                exercise.get("restTime").getAsInt(),
+                                exercise.get("weight").getAsInt(),
+
+                                // Instead of time get friends name
+                                exercise.get("user").getAsJsonObject()
+                                            .get("first_name").getAsString(),
+
+                                exercise.get("id").getAsInt()
+
+                        ));
+                    }
+
+                    ExerciseListAdapter adapter = new ExerciseListAdapter(DashboardActivity.this, friendsExerciseArrayList);
+                    ListView friendsExerciseListView = (ListView) findViewById(R.id.friends_exercises_list);
+                    friendsExerciseListView.setAdapter(adapter);
+
+                    ExerciseListAdapter.setListViewHeightBasedOnItems(friendsExerciseListView);
+                    setItemOnClickListener(friendsExerciseArrayList, friendsExerciseListView);
+
+                } else {
+                    // TODO: Error handling
+                    Log.wtf("EXERCISE", "Response error");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                Log.wtf("EXERCISE", call.toString());
+
+            }
+        });
+
+    }
+
     private void setItemOnClickListener(final ArrayList<Exercise> exerciseArrayList, ListView exerciseListView) {
         exerciseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -202,7 +251,8 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        updateExercises();
+        updateUsersExercises();
+        updateFriendsExercises();
     }
 
     @Override
