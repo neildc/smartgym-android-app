@@ -23,4 +23,20 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:scrollHorizontally="false" />
+
+    <Button
+        android:text="DONT PRESS THE BUTTON"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="109dp"
+        android:id="@+id/button2"
+        android:onClick="deleteExercise"
+        android:backgroundTint="@color/red"
+        style="@android:style/Widget.Material.Button"
+        android:textSize="50sp"
+        android:textStyle="normal|bold"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingExtra="36sp"
+        android:textAlignment="center" />
 </RelativeLayout>

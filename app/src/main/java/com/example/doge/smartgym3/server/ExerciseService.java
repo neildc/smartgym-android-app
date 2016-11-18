@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -25,6 +26,9 @@ public interface ExerciseService {
 
     @GET("/exercise/{id}/")
     Call<JsonObject> getExercise(@Path("id") int id);
+
+    @DELETE("/exercise/{id}/")
+    Call<Integer> deleteExercise(@Path("id") int id);
 
     /**
      * Used to create a new exercise

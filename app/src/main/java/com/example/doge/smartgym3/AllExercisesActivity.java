@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,11 +35,17 @@ public class AllExercisesActivity extends AppCompatActivity {
     String TAG = AllExercisesActivity.class.getName();
 
     int user_id;
+    private WorkoutApplication app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_exercises);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_all_exercise);
+        app = (WorkoutApplication) getApplication();
+        this.setSupportActionBar(myToolbar);
+        this.getSupportActionBar().setTitle("All Exercises");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
 
@@ -124,4 +132,15 @@ public class AllExercisesActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home ) {
+            finish();
+            return true;
+        }
+        // other menu select events may be present here
+
+        return super.onOptionsItemSelected(item);
+    }
 }
