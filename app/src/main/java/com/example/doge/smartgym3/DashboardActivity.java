@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,12 +39,9 @@ public class DashboardActivity extends AppCompatActivity {
     private WorkoutApplication app;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    private static final String TAG = "DashboardActivity";
     int user_id;
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-//    private ProgressBar mRegistrationProgressBar;
-//    private TextView mInformationTextView;
     private boolean isReceiverRegistered;
 
     @Override
@@ -67,30 +65,30 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
         profilePic.setImageBitmap(app.getProfilePic());
-        mWelcomeText.setText("Welcome back , " + app.getName());
+        if (app.getName() != null) {
+            mWelcomeText.setText("Welcome back , " + app.getName().split("\\s+")[0]);
+        } else {
+            mWelcomeText.setText("Welcome back !");
+        }
         mStatusText.setText("Today is : ARMS");
-        mUsersExercisesHeader.setText("Your Recent Exercises");
-        mFriendsExercisesHeader.setText("Friends Recent Exercises");
+        mUsersExercisesHeader.setText("Recent");
+        mFriendsExercisesHeader.setText("Friend Activity");
 
         //GCM
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-//                mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(context);
                 boolean sentToken = sharedPreferences
                         .getBoolean("GCM.SENT_TOKEN_TO_SERVER", false);
                 if (sentToken) {
                     Log.d("GCM", "sentTOken");
-//                    mInformationTextView.setText(getString(R.string.gcm_send_message));
                 } else {
                     Log.d("GCM", "tokenError");
-//                    mInformationTextView.setText(getString(R.string.token_error_message));
                 }
             }
         };
-//        mInformationTextView = (TextView) findViewById(R.id.informationTextView);
 
         // Registering BroadcastReceiver
         registerReceiver();
@@ -102,6 +100,31 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateUsersExercises();
+        updateFriendsExercises();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        isReceiverRegistered = false;
+        super.onPause();
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     private void updateUsersExercises() {
@@ -137,6 +160,11 @@ public class DashboardActivity extends AppCompatActivity {
                         ));
                     }
 
+                    if (exerciseArrayList.size() < 4) {
+                        Button btn = (Button) findViewById(R.id.button_all_exercises);
+                        btn.setVisibility(View.GONE);
+                    }
+
                     ExerciseListAdapter adapter = new ExerciseListAdapter(DashboardActivity.this, exerciseArrayList);
                     ListView exerciseListView = (ListView) findViewById(R.id.exercises_list);
                     exerciseListView.setAdapter(adapter);
@@ -160,7 +188,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void updateFriendsExercises() {
 
@@ -236,39 +263,6 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-//    private ArrayList<Exercise> downloadUsers
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-
-    public void moveToNotifications(View notificationButton){
-        Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
-        startActivity(intent);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateUsersExercises();
-        updateFriendsExercises();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver();
-    }
-
-    @Override
-    protected void onPause() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
-        isReceiverRegistered = false;
-        super.onPause();
-    }
-
     private void registerReceiver(){
         if(!isReceiverRegistered) {
             LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
@@ -295,6 +289,11 @@ public class DashboardActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    public void moveToNotifications(View notificationButton){
+        Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+        startActivity(intent);
     }
 
     public void setUser_id(int id) {

@@ -19,18 +19,15 @@ import com.example.doge.smartgym3.util.TokenUtil;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.DELETE;
 
 public class NotificationsActivity extends AppCompatActivity {
 

@@ -15,7 +15,8 @@
         android:background="#373A3F"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:fitsSystemWindows="true"/>
 
     <ListView
         android:id="@+id/notification_list"

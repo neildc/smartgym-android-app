@@ -9,7 +9,6 @@
     android:weightSum="1">
 
 
-
     <ScrollView
         android:id="@+id/container"
         android:layout_width="fill_parent"
@@ -47,7 +46,6 @@
                     android:layout_alignRight="@id/circleView" />
             </RelativeLayout>
 
-
             <TextView
                 android:text="TextView"
                 android:gravity="center"
@@ -71,12 +69,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
-            <Button
-                android:text="GOTO GRAPH"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn5"
-                android:onClick="gotoGraph" />
+            <!--<Button-->
+                <!--android:text="GOTO GRAPH"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/btn5"-->
+                <!--android:onClick="gotoGraph" />-->
 
             <Space
                 android:layout_width="match_parent"

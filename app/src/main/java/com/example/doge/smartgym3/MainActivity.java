@@ -1,26 +1,32 @@
 package com.example.doge.smartgym3;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doge.smartgym3.server.ExerciseService;
+import com.example.doge.smartgym3.util.MyPagerAdapter;
 import com.example.doge.smartgym3.util.ServiceGenerator;
 import com.example.doge.smartgym3.util.TokenUtil;
 import com.google.gson.JsonObject;
+import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import java.io.IOException;
 
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -34,25 +40,38 @@ public class MainActivity extends AppCompatActivity {
     private EditText rest_input;
     private EditText sets_input;
     private EditText reps_input;
+    private WorkoutApplication app;
+    private FragmentPagerAdapter adapterViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ViewPager vpPager = (ViewPager) findViewById(R.id.pager);
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(adapterViewPager);
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.indicator);
+        inkPageIndicator.setViewPager(vpPager);
+
         setResources();
     }
 
     private void setResources() {
-//        intent = new Intent(this, WorkoutGuideActivity.class);
         intent = new Intent(this, RankUpActivity.class);
-        startButton = (Button) findViewById(R.id.go_button);
+//        startButton = (Button) findViewById(R.id.go_button);
+        RelativeLayout footer = (RelativeLayout) findViewById(R.id.footer);
         spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);
-        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
+//        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
         rest_input = (EditText) findViewById(R.id.new_exercise_rest);
         sets_input = (EditText) findViewById(R.id.new_exercise_sets);
         reps_input = (EditText) findViewById(R.id.new_exercise_reps);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        app = (WorkoutApplication) getApplication();
+        this.setSupportActionBar(myToolbar);
+        this.getSupportActionBar().setTitle("Workout Setup");
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
+        footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -82,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private boolean emptyEditFeild(EditText ef) {
+    private boolean emptyEditField(EditText ef) {
         if (ef.getText().toString().isEmpty()) {
             ef.setError("Can't be empty");
             return true;
@@ -93,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean allFieldsNotEmpty() {
 
-        if (emptyEditFeild(weight_input) ||
-            emptyEditFeild(rest_input) ||
-            emptyEditFeild(sets_input)||
-            emptyEditFeild(reps_input))
+        if (emptyEditField(weight_input) ||
+            emptyEditField(rest_input) ||
+            emptyEditField(sets_input)||
+            emptyEditField(reps_input))
 
             return false;
         else {
@@ -124,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home ) {
+            finish();
+            return true;
+        }
+        // other menu select events may be present here
 
+        return super.onOptionsItemSelected(item);
+    }
 
 }
