@@ -16,7 +16,22 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:fitsSystemWindows="true"/>
+        android:fitsSystemWindows="true">
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:indeterminate="true"
+            android:layout_width="50dp"
+            android:layout_height="fill_parent"
+            android:background="@android:color/transparent"
+            style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+            android:layout_gravity="right"
+            android:paddingRight="25dp"
+            android:visibility="gone"
+            android:layout_alignParentStart="true" />
+
+    </android.support.v7.widget.Toolbar>
 
     <ListView
         android:id="@+id/notification_list"

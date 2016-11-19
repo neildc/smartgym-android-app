@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.doge.smartgym3.server.NotificationService;
 import com.example.doge.smartgym3.util.ServiceGenerator;
@@ -44,6 +46,11 @@ public class NotificationsActivity extends AppCompatActivity {
         this.setSupportActionBar(myToolbar);
         this.getSupportActionBar().setTitle("Notifications");
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+        progressBar.bringToFront();
 
     }
 
@@ -103,15 +110,23 @@ public class NotificationsActivity extends AppCompatActivity {
                     JsonArray notificationsJSONArray = response.body().getAsJsonArray();
                     ArrayList<Notification> notificationArrayList = new ArrayList<>();
 
-                    for (int i = 0; i < notificationsJSONArray.size(); i++) {
-                        JsonObject notification = notificationsJSONArray.get(i).getAsJsonObject();
-                        switch (notification.get("type").getAsString()) {
-                            case (Notification.BRAG):
-                                parseAsBrag(notificationArrayList, notification);
-                                break;
+                    if (notificationsJSONArray.size() > 0) {
 
-                            default:
+                        for (int i = 0; i < notificationsJSONArray.size(); i++) {
+                            JsonObject notification = notificationsJSONArray.get(i).getAsJsonObject();
+                            switch (notification.get("type").getAsString()) {
+                                case (Notification.BRAG):
+                                    parseAsBrag(notificationArrayList, notification);
+                                    break;
+
+                                default:
+                            }
                         }
+                    } else {
+                        Log.v("TAG", "No notifications");
+                        Toast.makeText(getApplicationContext(),
+                                       "No notifications to display",
+                                        Toast.LENGTH_LONG) .show();
                     }
 
 
@@ -120,6 +135,9 @@ public class NotificationsActivity extends AppCompatActivity {
                     notificationListView.setAdapter(recentAdapter);
 
                     setItemOnClickListener(notificationArrayList, notificationListView);
+
+                    ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress);
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
 
 
                 } else {

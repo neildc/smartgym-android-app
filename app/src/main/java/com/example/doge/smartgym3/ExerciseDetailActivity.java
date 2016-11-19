@@ -49,9 +49,9 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                 TokenUtil.getAccessTokenFromSharedPreferences( this )
         );
 
-        this.progressBar = (ProgressBar)findViewById(R.id.progress);
-        this.progressBar.setVisibility(ProgressBar.VISIBLE);
-        this.progressBar.bringToFront();
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+        progressBar.bringToFront();
 
         getData(exercise_id);
     }
