@@ -27,7 +27,11 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -139,6 +143,12 @@ public class DashboardActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
+
+
+                    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                    Date date = new Date();
+
+
                     int numNotifications= response.body().get("notifications_count").getAsInt();
                     setUser_id(response.body().get("id").getAsInt());
                     updateNotificationBubble(numNotifications);
@@ -148,13 +158,24 @@ public class DashboardActivity extends AppCompatActivity {
 
                     for (int i = 0; i < exercisesJSONArray.size(); i++) {
                         JsonObject exercise = exercisesJSONArray.get(i).getAsJsonObject();
+
+                        String datetimeString = exercise.get("created").getAsString();
+                        try {
+                            date = iso8601Format.parse(datetimeString);
+                        } catch (ParseException e) {
+                            Log.e("AA", e.toString());
+                        }
+                        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE, d/M/y");
+
+                        String dateString = dateFormatter.format(date);
+
                         exerciseArrayList.add(new Exercise(
                                 exercise.get("exercise_type").getAsString(),
                                 exercise.get("targetSets").getAsInt(),
                                 exercise.get("targetReps").getAsInt(),
                                 exercise.get("restTime").getAsInt(),
                                 exercise.get("weight").getAsInt(),
-                                exercise.get("created").getAsString(),
+                                dateString,
                                 exercise.get("id").getAsInt()
 
                         ));
@@ -201,12 +222,24 @@ public class DashboardActivity extends AppCompatActivity {
 
                 if (response.isSuccessful()) {
 
+                    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                    Date date = new Date();
+
 
                     JsonArray exercisesJSONArray = response.body().getAsJsonArray();
                     final ArrayList<Exercise> friendsExerciseArrayList = new ArrayList<>();
                     for (int i = 0; i < exercisesJSONArray.size(); i++) {
 
                         JsonObject exercise = exercisesJSONArray.get(i).getAsJsonObject();
+                        String datetimeString = exercise.get("created").getAsString();
+                        try {
+                            date = iso8601Format.parse(datetimeString);
+                        } catch (ParseException e) {
+                            Log.e("AA", e.toString());
+                        }
+                        SimpleDateFormat dateFormatter = new SimpleDateFormat("EEEE");
+
+                        String dateString = dateFormatter.format(date);
 
                         friendsExerciseArrayList.add(new Exercise(
                                 exercise.get("exercise_type").getAsString(),
@@ -216,7 +249,8 @@ public class DashboardActivity extends AppCompatActivity {
                                 exercise.get("weight").getAsInt(),
 
                                 // Instead of time get friends name
-                                exercise.get("user").getAsJsonObject()
+                                "on " + dateString +" by "+  exercise.get("user").getAsJsonObject()
+
                                             .get("first_name").getAsString(),
 
                                 exercise.get("id").getAsInt()
