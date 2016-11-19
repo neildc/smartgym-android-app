@@ -53,6 +53,7 @@ public class DashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
         app = (WorkoutApplication) getApplication();
         CircleImageView profilePic = (CircleImageView) findViewById(R.id.circleView);
         TextView mWelcomeText = (TextView) findViewById(R.id.welcomeText);
