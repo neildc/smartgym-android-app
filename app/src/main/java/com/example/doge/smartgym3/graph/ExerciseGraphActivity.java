@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -59,6 +60,7 @@ public class ExerciseGraphActivity extends AppCompatActivity {
 
     public static GraphView graph;
     public static String currExercise;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,15 +145,21 @@ public class ExerciseGraphActivity extends AppCompatActivity {
 
     private void resetFragment() {
 
+        /**
+         * yeaaahh...
+         */
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
 
         for (Fragment f : fragments) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .detach(f)
-                    .attach(f)
-                    .commit();
+            if (f != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .detach(f)
+                        .attach(f)
+                        .commit();
+            }
         }
+
     }
 
 
@@ -335,9 +343,8 @@ public class ExerciseGraphActivity extends AppCompatActivity {
 
             TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             textView.setText("Exercise:" + currExercise);
-
-
             ExerciseGraphActivity.graph = (GraphView) rootView.findViewById(R.id.graph);
+
             graph.getViewport().setXAxisBoundsManual(true);
 
             ExerciseGraphActivity a = (ExerciseGraphActivity)getActivity();
