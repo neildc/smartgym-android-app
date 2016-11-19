@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     private TextView madText;
     int exercise_id;
     ExerciseService exerciseService;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,10 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                 ExerciseService.class,
                 TokenUtil.getAccessTokenFromSharedPreferences( this )
         );
+
+        this.progressBar = (ProgressBar)findViewById(R.id.progress);
+        this.progressBar.setVisibility(ProgressBar.VISIBLE);
+        this.progressBar.bringToFront();
 
         getData(exercise_id);
     }
@@ -138,6 +144,8 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                             data.get("targetSets").getAsInt(),
                             data.get("targetReps").getAsInt()
                     );
+                    ProgressBar progressBar = (ProgressBar)findViewById(R.id.progress);
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
                 }
             }
 
