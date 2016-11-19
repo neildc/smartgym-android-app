@@ -1,42 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_exercise_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.doge.smartgym3.ExerciseDetailActivity">
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:text="Name"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp"
-        android:id="@+id/detailText"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:scrollHorizontally="false" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_exercise_detail"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#373A3F"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:paddingRight="20dp"
+        android:fitsSystemWindows="true">
 
-    <Button
-        android:text="DONT PRESS THE BUTTON"
+        <Button
+        android:layout_height="35dp"
+        android:id="@+id/exercise_detail_delete_button"
+        android:onClick="deleteExercise"
+        android:backgroundTint="@color/cardview_light_background"
+        style="@style/Widget.AppCompat.Button"
+        android:background="@android:drawable/ic_menu_delete"
+        android:layout_gravity="right"
+        android:layout_width="35dp"></Button>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="109dp"
-        android:id="@+id/button2"
-        android:onClick="deleteExercise"
-        android:backgroundTint="@color/red"
-        style="@android:style/Widget.Material.Button"
-        android:textSize="50sp"
-        android:textStyle="normal|bold"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:lineSpacingExtra="36sp"
-        android:textAlignment="center" />
+        android:layout_marginTop="33dp"
+        android:id="@+id/exercise_detail_exercise_type"
+        tools:text="Bench Press Exercise"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textSize="30dp"
+        android:layout_below="@+id/toolbar_exercise_detail"
+        android:layout_alignParentStart="true"
+        android:textAlignment="textEnd"
+        android:layout_alignParentEnd="true"
+        android:paddingRight="40dp" />
+
+    <TextView
+        android:text="3PM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/exercise_detail_time"
+        android:layout_alignEnd="@+id/exercise_detail_date"
+        android:layout_alignParentStart="true"
+        android:textAlignment="textEnd"
+        android:paddingRight="40dp"
+        android:layout_below="@+id/exercise_detail_date" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/exercise_detail_date"
+        android:textSize="14sp"
+        tools:text="Done on 20/30/10"
+        android:layout_below="@+id/exercise_detail_exercise_type"
+        android:layout_alignEnd="@+id/exercise_detail_exercise_type"
+        android:layout_alignParentStart="true"
+        android:textAlignment="textEnd"
+        android:paddingRight="40dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="45dp"
+        android:padding="20dp"
+        android:layout_below="@+id/exercise_detail_time"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/weight"
+                    style="@style/Card"
+                    card_view:cardCornerRadius="4dp">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textSize="20sp"
+                            android:padding="16dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textSize="20sp"
+                            android:padding="16dp"
+                            android:layout_toStartOf="@+id/weights_end_space"
+                            android:id="@+id/exercise_detail_weight" />
+
+                        <Space
+                            android:id="@+id/weights_end_space"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true" />
+
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/rest_time"
+                    style="@style/Card"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Rest time"
+                            android:textSize="20sp"
+                            android:padding="16dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textSize="20sp"
+                            android:padding="16dp"
+                            android:layout_toStartOf="@+id/rest_time_end_space"
+                            android:id="@+id/exercise_detail_rest" />
+
+                        <Space
+                            android:id="@+id/rest_time_end_space"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/sets"
+                    style="@style/Card"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sets"
+                            android:textSize="20sp"
+                            android:padding="16dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textSize="20sp"
+                            android:padding="16dp"
+                            android:layout_toStartOf="@+id/sets_end_space"
+                            android:id="@+id/exercise_detail_sets" />
+
+                        <Space
+                            android:id="@+id/sets_end_space"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/reps"
+                    style="@style/Card"
+                    card_view:cardCornerRadius="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reps per set"
+                            android:textSize="20sp"
+                            android:padding="16dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Weight"
+                            android:textSize="20sp"
+                            android:padding="16dp"
+                            android:layout_toStartOf="@+id/reps_end_space"
+                            android:id="@+id/exercise_detail_reps" />
+
+                        <Space
+                            android:id="@+id/reps_end_space"
+                            android:layout_width="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true" />
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
 </RelativeLayout>
