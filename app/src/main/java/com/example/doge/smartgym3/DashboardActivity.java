@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -104,6 +105,8 @@ public class DashboardActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+
+
     }
 
     @Override
@@ -132,6 +135,11 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void updateUsersExercises() {
+
+
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressSelf);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+        progressBar.bringToFront();
 
         String serverAccessToken = TokenUtil.getAccessTokenFromSharedPreferences(this.getApplicationContext());
         final ExerciseService exerciseService = ServiceGenerator.createService(ExerciseService.class, serverAccessToken);
@@ -186,12 +194,18 @@ public class DashboardActivity extends AppCompatActivity {
                         btn.setVisibility(View.GONE);
                     }
 
+
+                    ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressSelf);
+                    progressBar.setVisibility(ProgressBar.GONE);
+
                     ExerciseListAdapter adapter = new ExerciseListAdapter(DashboardActivity.this, exerciseArrayList);
                     ListView exerciseListView = (ListView) findViewById(R.id.exercises_list);
                     exerciseListView.setAdapter(adapter);
 
                     ExerciseListAdapter.setListViewHeightBasedOnItems(exerciseListView);
                     setItemOnClickListener(exerciseArrayList, exerciseListView);
+
+
 
 
 
@@ -211,6 +225,11 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void updateFriendsExercises() {
+
+
+        ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressFriend);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+        progressBar.bringToFront();
 
         String serverAccessToken = TokenUtil.getAccessTokenFromSharedPreferences(this.getApplicationContext());
         final ExerciseService exerciseService = ServiceGenerator.createService(ExerciseService.class, serverAccessToken);
@@ -257,6 +276,8 @@ public class DashboardActivity extends AppCompatActivity {
 
                         ));
                     }
+                    ProgressBar progressBar = (ProgressBar)findViewById(R.id.progressFriend);
+                    progressBar.setVisibility(ProgressBar.GONE);
 
                     ExerciseListAdapter adapter = new ExerciseListAdapter(DashboardActivity.this, friendsExerciseArrayList);
                     ListView friendsExerciseListView = (ListView) findViewById(R.id.friends_exercises_list);

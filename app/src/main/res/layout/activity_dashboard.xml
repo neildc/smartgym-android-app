@@ -100,6 +100,17 @@
                     android:layout_height="wrap_content"
                     style="@style/ListCard"
                     card_view:cardCornerRadius="2dp">
+                    <ProgressBar
+                        android:id="@+id/progressSelf"
+                        android:indeterminate="true"
+                        android:layout_width="50dp"
+                        android:layout_height="fill_parent"
+                        android:background="@android:color/transparent"
+                        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                        android:layout_gravity="right"
+                        android:paddingRight="25dp"
+                        android:visibility="gone"
+                        android:layout_alignParentStart="true" />
 
                     <ListView
                         android:id="@+id/exercises_list"
@@ -107,6 +118,9 @@
                         android:layout_height="wrap_content"
                         android:divider="#373A3F"
                         android:dividerHeight="0.3dip">
+
+
+
                     </ListView>
 
                 </android.support.v7.widget.CardView>
@@ -145,12 +159,25 @@
                     style="@style/ListCard"
                     card_view:cardCornerRadius="2dp">
 
+                    <ProgressBar
+                        android:id="@+id/progressFriend"
+                        android:indeterminate="true"
+                        android:layout_width="50dp"
+                        android:layout_height="fill_parent"
+                        android:background="@android:color/transparent"
+                        style="@android:style/Widget.Holo.Light.ProgressBar.Large"
+                        android:layout_gravity="right"
+                        android:paddingRight="25dp"
+                        android:visibility="gone"
+                        android:layout_alignParentStart="true" />
+
                     <ListView
                         android:id="@+id/friends_exercises_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:divider="#373A3F"
                         android:dividerHeight="0.3dip">
+
                     </ListView>
 
                 </android.support.v7.widget.CardView>
