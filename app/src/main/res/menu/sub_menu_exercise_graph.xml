@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/graph_mode_day"
+            android:title="@string/graph_mode_day"
+            android:checked="true"
+            />
+        <item android:id="@+id/graph_mode_hour"
+            android:title="@string/graph_mode_hour" />
+        <item android:id="@+id/graph_mode_minute"
+            android:title="@string/graph_mode_minute" />
+    </group>
+</menu>

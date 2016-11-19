@@ -71,18 +71,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="15dp" />
 
-            <LinearLayout
+            <Button
+                android:text="GOTO GRAPH"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <android.support.v7.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/recent_exercises_card"
-                    android:layout_height="wrap_content"
-                    style="@style/ListCard"
-                    card_view:cardCornerRadius="2dp">
-
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:id="@+id/btn5"
+                android:onClick="gotoGraph" />
 
             <Space
                 android:layout_width="match_parent"

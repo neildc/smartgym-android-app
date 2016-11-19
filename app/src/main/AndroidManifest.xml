@@ -87,6 +87,21 @@
         <activity
             android:name=".AllExercisesActivity"
             android:theme="@style/AppTheme.noActionBar" />
+        <activity
+            android:name=".graph.ExerciseGraphActivity"
+            android:label="@string/title_activity_exercise_graph"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.doge.smartgym3.DashboardActivity" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

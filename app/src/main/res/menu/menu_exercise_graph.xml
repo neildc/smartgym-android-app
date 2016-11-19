@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.doge.smartgym3.graph.ExerciseGraphActivity">
+
+    <item
+        android:id="@+id/action_mode"
+        android:orderInCategory="50"
+        android:title="@string/action_graph_mode"
+        app:showAsAction="ifRoom">
+
+        <menu></menu>
+
+    </item>
+
+
+</menu>

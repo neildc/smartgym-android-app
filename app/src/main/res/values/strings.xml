@@ -29,4 +29,13 @@
     <string name="internal_pref_smartgym_token_key">"internal_pref_smartgym_token_key"</string>
 
     <string name="gcm_sender_id">916615009544</string>
+    <string name="title_activity_exercise_graph">ExerciseGraphActivity</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="action_graph_mode">Graph Mode</string>
+    <string name="graph_mode_day">Day</string>
+    <string name="graph_mode_hour">Hour</string>
+    <string name="graph_mode_minute">Minute</string>
+
+
 </resources>

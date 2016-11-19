@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.doge.smartgym3.gcm.RegistrationIntentService;
+import com.example.doge.smartgym3.graph.ExerciseGraphActivity;
 import com.example.doge.smartgym3.server.ExerciseService;
 import com.example.doge.smartgym3.util.ServiceGenerator;
 import com.example.doge.smartgym3.util.TokenUtil;
@@ -311,6 +312,14 @@ public class DashboardActivity extends AppCompatActivity {
     public void updateNotificationBubble(int count) {
         TextView bubble = (TextView) findViewById(R.id.notificationBubble);
         bubble.setText(Integer.toString(count));
+    }
+
+    public void gotoGraph(View v) {
+        Intent intent = new Intent(
+                DashboardActivity.this,
+                ExerciseGraphActivity.class);
+        startActivity(intent);
+
     }
 
 }
