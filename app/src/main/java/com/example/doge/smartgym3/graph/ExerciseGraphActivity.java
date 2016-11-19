@@ -1,14 +1,8 @@
 package com.example.doge.smartgym3.graph;
 
-import android.app.Activity;
 import android.graphics.Color;
-import android.os.PersistableBundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -30,7 +24,6 @@ import android.content.res.Resources.Theme;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.doge.smartgym3.Exercise;
 import com.example.doge.smartgym3.R;
 import com.example.doge.smartgym3.server.GraphService;
 import com.example.doge.smartgym3.util.ServiceGenerator;
@@ -45,6 +38,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -192,31 +186,34 @@ public class ExerciseGraphActivity extends AppCompatActivity {
         );
 
         // Default
-        Call<JsonArray> c = graphService.getGraphFriendsVolumeForADay(exercise);
+        Call<JsonArray> cSelf = graphService.getGraphSelfVolumeForADay(exercise);
+        Call<JsonArray> cFriends = graphService.getGraphFriendsVolumeForADay(exercise);
 
         switch (mode) {
             case (R.id.graph_mode_day):
-                c = graphService.getGraphFriendsVolumeForADay(exercise);
+                cSelf = graphService.getGraphSelfVolumeForADay(exercise);
+                cFriends = graphService.getGraphFriendsVolumeForADay(exercise);
                 break;
 
             case (R.id.graph_mode_hour):
-                c = graphService.getGraphFriendsVolumeForAHour(exercise);
+                cSelf = graphService.getGraphSelfVolumeForAHour(exercise);
+                cFriends = graphService.getGraphFriendsVolumeForAHour(exercise);
                 break;
 
             case (R.id.graph_mode_minute):
-                c = graphService.getGraphFriendsVolumeForAMinute(exercise);
+                cSelf = graphService.getGraphSelfVolumeForAMinute(exercise);
+                cFriends = graphService.getGraphFriendsVolumeForAMinute(exercise);
                 break;
 
         }
 
-
-        c.enqueue(new Callback<JsonArray>() {
+        cSelf.enqueue(new Callback<JsonArray>() {
             @Override
             public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
                 if (response.isSuccessful()) {
                     switch (response.code()) {
                         case (200):
-                            parseResponse(response, graph);
+                            parseSelfResponse(response, graph);
                             break;
 
                         case (204):
@@ -224,8 +221,28 @@ public class ExerciseGraphActivity extends AppCompatActivity {
                             break;
                     }
                 }
+            }
 
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
 
+            }
+        });
+
+        cFriends.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                if (response.isSuccessful()) {
+                    switch (response.code()) {
+                        case (200):
+                            parseFriendsResponse(response, graph);
+                            break;
+
+                        case (204):
+                            Toast.makeText(ExerciseGraphActivity.this, "No data to collect", Toast.LENGTH_LONG);
+                            break;
+                    }
+                }
             }
 
             @Override
@@ -236,39 +253,63 @@ public class ExerciseGraphActivity extends AppCompatActivity {
     }
 
 
-    public void parseResponse(Response<JsonArray> response, GraphView graph) {
+    public void parseSelfResponse(Response<JsonArray> response, GraphView graph) {
         JsonArray respBody = response.body().getAsJsonArray();
         for (int i =0; i < respBody.size(); i++) {
-            JsonObject o = respBody.get(i).getAsJsonObject();
+            LineGraphSeries<DataPoint> series = getDataPointLineGraphSeries(respBody, i);
 
-            ArrayList<DataPoint> dataPointsArrayList = new ArrayList<>();
-
-            JsonObject data = o.get("data").getAsJsonObject();
-            for (Map.Entry<String,JsonElement> entry : data.entrySet()) {
-                int slice = Integer.parseInt(entry.getKey());
-                int weight = entry.getValue().getAsInt();
-
-                Log.d("AAAA", slice + " : " + weight);
-
-                dataPointsArrayList.add(new DataPoint(slice, weight));
-            }
-
-            Collections.reverse(dataPointsArrayList);
-
-            LineGraphSeries<DataPoint> series =
-                    new LineGraphSeries<DataPoint>(
-                            dataPointsArrayList.toArray(
-                                    new DataPoint[dataPointsArrayList.size()]
-                            )
-                    );
             series.setDrawDataPoints(true);
             series.setDataPointsRadius(10);
-            series.setColor(0xFF000000|(int)(Math.random()*0x1000000));
-            Log.v("AAAA", "Color set:"+ Integer.toHexString(series.getColor()));
+            series.setColor(Color.BLACK);
             graph.addSeries(series);
         }
     }
 
+    public void parseFriendsResponse(Response<JsonArray> response, GraphView graph) {
+        JsonArray respBody = response.body().getAsJsonArray();
+        for (int i =0; i < respBody.size(); i++) {
+            addFriendsGraphSeries(graph, respBody, i);
+        }
+    }
+
+    private void addFriendsGraphSeries(GraphView graph, JsonArray respBody, int i) {
+        LineGraphSeries<DataPoint> series = getDataPointLineGraphSeries(respBody, i);
+        series.setDrawDataPoints(true);
+        series.setDataPointsRadius(5);
+        series.setColor(0xFF000000|(int)(Math.random()*0x1000000));
+        Log.v("AAAA", "Color set:"+ Integer.toHexString(series.getColor()));
+        graph.addSeries(series);
+    }
+
+    @NonNull
+    private LineGraphSeries<DataPoint> getDataPointLineGraphSeries(JsonArray respBody, int i) {
+        JsonObject o = respBody.get(i).getAsJsonObject();
+
+        ArrayList<DataPoint> dataPointsArrayList = new ArrayList<>();
+
+        JsonObject data = o.get("data").getAsJsonObject();
+        for (Map.Entry<String,JsonElement> entry : data.entrySet()) {
+            int slice = Integer.parseInt(entry.getKey());
+            int weight = entry.getValue().getAsInt();
+
+            Log.d("AAAA", slice + " : " + weight);
+
+            dataPointsArrayList.add(new DataPoint(slice, weight));
+        }
+
+        Collections.sort(dataPointsArrayList, new Comparator<DataPoint>() {
+            @Override
+            public int compare(DataPoint o1, DataPoint o2) {
+                return ((int)o1.getX()- (int)o2.getX());
+            }
+        });
+
+        return new LineGraphSeries<DataPoint>(
+                dataPointsArrayList.toArray(
+                        new DataPoint[dataPointsArrayList.size()]
+                )
+        );
+    }
 
 
     private static class MyAdapter extends ArrayAdapter<String> implements ThemedSpinnerAdapter {

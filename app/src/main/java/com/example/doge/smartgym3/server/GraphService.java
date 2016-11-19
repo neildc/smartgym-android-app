@@ -44,6 +44,17 @@ public interface GraphService {
 
     @GET("/exercise/graphFriendsVolumeMinute/")
     Call<JsonArray> getGraphFriendsVolumeForAMinute(@Query("exercise") String exercise);
+
+
+    @GET("/exercise/graphSelfVolumeDay/")
+    Call<JsonArray> getGraphSelfVolumeForADay(@Query("exercise") String exercise);
+
+
+    @GET("/exercise/graphSelfVolumeHour/")
+    Call<JsonArray> getGraphSelfVolumeForAHour(@Query("exercise") String exercise);
+
+    @GET("/exercise/graphSelfVolumeMinute/")
+    Call<JsonArray> getGraphSelfVolumeForAMinute(@Query("exercise") String exercise);
 }
 
 
