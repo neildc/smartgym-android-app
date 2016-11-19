@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,18 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         );
 
         getData(exercise_id);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home ) {
+            finish();
+            return true;
+        }
+        // other menu select events may be present here
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void setTextForAllTextViews(String exercise,
