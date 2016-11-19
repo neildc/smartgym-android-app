@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.doge.smartgym3.DashboardActivity;
 import com.example.doge.smartgym3.NotificationsActivity;
+import com.example.doge.smartgym3.R;
 import com.google.android.gms.gcm.GcmListenerService;
 
 public class MyGcmListenerService extends GcmListenerService {
@@ -68,11 +69,12 @@ public class MyGcmListenerService extends GcmListenerService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(android.support.v7.appcompat.R.drawable.notification_template_icon_bg)
+                .setSmallIcon(R.mipmap.panda)
                 .setContentTitle("Smart Gym")
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000} )
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =

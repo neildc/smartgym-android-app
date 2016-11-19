@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 //        startButton = (Button) findViewById(R.id.go_button);
         RelativeLayout footer = (RelativeLayout) findViewById(R.id.footer);
         spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);
-//        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
+        weight_input = (EditText)  findViewById(R.id.new_exercise_weight);
         rest_input = (EditText) findViewById(R.id.new_exercise_rest);
         sets_input = (EditText) findViewById(R.id.new_exercise_sets);
         reps_input = (EditText) findViewById(R.id.new_exercise_reps);
