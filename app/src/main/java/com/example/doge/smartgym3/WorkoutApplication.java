@@ -1,8 +1,8 @@
 package com.example.doge.smartgym3;
 
 import android.app.Application;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import java.net.URISyntaxException;
 
@@ -29,8 +29,11 @@ public class WorkoutApplication extends Application {
         );
         {
             try {
-                mSocket = IO.socket(Constants.CHAT_SERVER_URL);
+                mSocket = IO.socket(Constants.BENCH_SERVER_URL);
                 mSocket.connect();
+                if (mSocket.connected() == false) {
+                    Log.e("WS", "Failed to connect to socket");
+                }
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }

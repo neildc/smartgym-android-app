@@ -60,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setResources() {
-        intent = new Intent(this, RankUpActivity.class);
+//        intent = new Intent(this, RankUpActivity.class);
+        intent = new Intent(this, WorkoutGuideActivity.class);
+
 //        startButton = (Button) findViewById(R.id.go_button);
         RelativeLayout footer = (RelativeLayout) findViewById(R.id.footer);
         spinner_exercise_type = (Spinner)  findViewById(R.id.spinner_exercise_type);

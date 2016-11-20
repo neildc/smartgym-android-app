@@ -218,6 +218,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(), R.string.error_connect, Toast.LENGTH_LONG).show();
+
                 }
             });
         }
