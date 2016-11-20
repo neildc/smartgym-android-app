@@ -23,8 +23,8 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField("String", "API_BASE_URL", "\"http://128.199.252.3:8000/\"")
-//            buildConfigField("String", "API_BASE_URL", "\"http://192.168.0.3:8000\"")
+//            buildConfigField("String", "API_BASE_URL", "\"http://128.199.252.3:8000/\"")
+            buildConfigField("String", "API_BASE_URL", "\"http://192.168.0.3:8000\"")
             buildConfigField("String", "API_KEY", "\"3k78JZQ38uAKc4qqIJ095aXzGzJSbGcKw8QZLsG2\"")
             buildConfigField("String", "API_SECRET", "\"mtGwIzyAbvp7OS2W5D3y9gzYJkixYkziczdlQAeEYLNssK3kMBiW4KcKK0MZ43lk4K6fyRkAXrJt50bJnx265BcqkV870uPACum2pnijpggqgWbFNsFVUPTt44IbZUtM\"")
         }

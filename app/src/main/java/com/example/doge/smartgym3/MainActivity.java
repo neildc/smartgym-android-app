@@ -11,10 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doge.smartgym3.server.ExerciseService;
@@ -25,6 +27,7 @@ import com.google.gson.JsonObject;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.socket.client.Socket;
 import retrofit2.Call;
@@ -99,6 +102,45 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        spinner_exercise_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                // madhack but it'll force the graph to be recreated with the new
+                // selected exercise
+
+                // Graph will use the value that the spinner text is set to
+                resetFragment();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
+
+    private void resetFragment() {
+
+        /**
+         * yeaaahh...
+         */
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+
+        for (Fragment f : fragments) {
+            if (f != null) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .detach(f)
+                        .attach(f)
+                        .commit();
+            }
+        }
+
     }
 
     private boolean emptyEditField(EditText ef) {

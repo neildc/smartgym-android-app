@@ -79,8 +79,8 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         setTextOfTextView(R.id.exercise_detail_exercise_type, exercise);
         setTextOfTextView(R.id.exercise_detail_date, date);
         setTextOfTextView(R.id.exercise_detail_time, time);
-        setTextOfTextView(R.id.exercise_detail_weight, Integer.toString(weight));
-        setTextOfTextView(R.id.exercise_detail_rest, Integer.toString(resttime));
+        setTextOfTextView(R.id.exercise_detail_weight, Integer.toString(weight)+ " kg");
+        setTextOfTextView(R.id.exercise_detail_rest, Integer.toString(resttime) + " seconds");
         setTextOfTextView(R.id.exercise_detail_sets, Integer.toString(sets));
         setTextOfTextView(R.id.exercise_detail_reps, Integer.toString(reps));
 
