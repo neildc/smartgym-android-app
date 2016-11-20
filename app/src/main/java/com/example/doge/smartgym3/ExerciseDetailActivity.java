@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -120,7 +121,8 @@ public class ExerciseDetailActivity extends AppCompatActivity {
                     JsonObject data = response.body().getAsJsonObject();
                     String datetimeString = data.get("created").getAsString();
 
-                    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+//                   2016-11-20T05:16:21.441920Z
+                    DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS", Locale.ENGLISH);
                     Date date = new Date();
 
                     try {
