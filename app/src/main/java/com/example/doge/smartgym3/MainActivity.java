@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     int weight = Integer.valueOf(weight_input.getText().toString());
 
                     int reps = Integer.valueOf(reps_input.getText().toString());
+                    int resttime = Integer.valueOf(rest_input.getText().toString());
+                    int sets = Integer.valueOf(sets_input.getText().toString());
                     int exerciseID = createExerciseOnServer(
                             exercise_type,
                             weight,
@@ -98,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("repcount", reps);
                     intent.putExtra("exercise_id", exerciseID);
                     intent.putExtra("exercise_type", exercise_type);
+                    intent.putExtra("resttime", resttime);
                     intent.putExtra("weight", weight);
+                    intent.putExtra("sets", sets);
 
                     startActivity(intent);
                 }

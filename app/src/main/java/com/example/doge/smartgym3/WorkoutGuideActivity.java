@@ -1,6 +1,7 @@
 package com.example.doge.smartgym3;
 
 
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,28 +11,41 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import android.speech.tts.TextToSpeech;
 //import com.neovisionaries.ws.client.WebSocket;
 //import com.neovisionaries.ws.client.WebSocketAdapter;
 //import com.neovisionaries.ws.client.WebSocketFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class WorkoutGuideActivity extends AppCompatActivity {
+public class WorkoutGuideActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private Button cancel;
     private Socket mSocket;
     private LinearLayout mLayout;
     private TextView repsLeft;
+    private TextView smallText;
     private TextView instruction;
     private int reps;
+    private int originalReps;
     private boolean isConnected;
+   TextToSpeech textToSpeech;
     private String mUsername;
+    private int currRep;
+    int resttime;
+    int currSet;
+    int sets;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +57,16 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         if (b != null){
             reps = b.getInt("repcount");
+            resttime = b.getInt("resttime");
+            sets = b.getInt("sets");
+            originalReps = reps;
+            currRep = 0;
         }
         setResources();
         startWorkout();
+
+        textToSpeech = new TextToSpeech(WorkoutGuideActivity.this, WorkoutGuideActivity.this);
+        textToSpeech.setPitch((float)0.5);
     }
 
     @Override
@@ -69,6 +90,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         mUsername = "Blinky Bill";
         mLayout = (LinearLayout) findViewById(R.id.activity_workout_guide);
         repsLeft = (TextView) findViewById(R.id.reps_left);
+        smallText = (TextView) findViewById(R.id.reps_count);
         repsLeft.setText(String.valueOf(reps) + " left");
         instruction = (TextView) findViewById(R.id.instruction);
         cancel = (Button) findViewById(R.id.cancel_button);
@@ -121,6 +143,24 @@ public class WorkoutGuideActivity extends AppCompatActivity {
 
     private void setFinished(){
         mSocket.emit("set finished");
+        changeBackgroundColor(Constants.REST);
+        changeInstruction(Constants.REST, null);
+        startCountdownTimer(resttime);
+    }
+
+    private void exerciseComplete() {
+
+    }
+
+    private void newSet() {
+        if (currSet > sets) {
+            exerciseComplete();
+        }
+        changeBackgroundColor(Constants.OKAY);
+        currSet++;
+        TextToSpeechFunction("Time to start set " + Integer.valueOf(currSet) +  " of " + Integer.valueOf(sets));
+        reps = originalReps;
+        setStart();
     }
 
     private void cancelWorkout(){
@@ -138,15 +178,33 @@ public class WorkoutGuideActivity extends AppCompatActivity {
             case Constants.ABORT:
                 mLayout.setBackgroundColor(getResources().getColor(R.color.red));
                 break;
+            case Constants.REST:
+                mLayout.setBackgroundColor(getResources().getColor(R.color.com_facebook_blue));
+                break;
             default:
                 mLayout.setBackgroundColor(getResources().getColor(R.color.green));
         }
     }
 
     private void decrementRepCount(){
+
+        currRep++;
         reps = reps - 1;
+
+        if (reps >= 3) {
+            TextToSpeechFunction(Integer.toString(currRep));
+        } else {
+            if (reps == 2) {
+                TextToSpeechFunction(Integer.toString(reps+1) + " left");
+            } else {
+                TextToSpeechFunction(Integer.toString(currRep));
+            }
+        }
+
         repsLeft.setText(String.valueOf(reps) + " left");
         if (reps == 0) {
+            TextToSpeechFunction(
+                    Integer.toString(currRep) + " reps completed. You done maaaate");
             setFinished();
         }
     }
@@ -155,6 +213,7 @@ public class WorkoutGuideActivity extends AppCompatActivity {
         switch(condition){
             case Constants.OKAY:
                 instruction.setText(R.string.doing_good);
+                smallText.setText("Rep count:");
                 break;
             case Constants.TILT:
                 if (direction.contentEquals("")){
@@ -171,6 +230,10 @@ public class WorkoutGuideActivity extends AppCompatActivity {
                 break;
             case Constants.ABORT:
                 instruction.setText(R.string.abort);
+                break;
+            case Constants.REST:
+                instruction.setText("Rest Time");
+                smallText.setText("Time remaining:");
                 break;
             default:
                 instruction.setText(R.string.doing_good);
@@ -250,6 +313,47 @@ public class WorkoutGuideActivity extends AppCompatActivity {
             });
         }
     };
+
+    @Override
+    public void onInit(int Text2SpeechCurrentStatus) {
+
+        if (Text2SpeechCurrentStatus == TextToSpeech.SUCCESS) {
+
+            textToSpeech.setLanguage(Locale.US);
+
+        }
+
+    }
+
+    public void TextToSpeechFunction(String s)
+    {
+
+        textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+
+    }
+
+    public void startCountdownTimer(int seconds) {
+        int milliseconds = seconds * 1000;
+        new CountDownTimer(milliseconds, 1000) { // adjust the milli seconds here
+
+            public void onTick(long millisUntilFinished) {
+                repsLeft.setText(""+String.format("%d min, %d sec",
+                        TimeUnit.MILLISECONDS.toMinutes( millisUntilFinished),
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) -
+                                TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))));
+
+                // 10 seconds remaining
+                if (millisUntilFinished/1000 == 10) {
+                    TextToSpeechFunction("10 seconds until the next set");
+                }
+            }
+
+            public void onFinish() {
+                newSet();
+                repsLeft.setText("done!");
+            }
+        }.start();
+    }
 
     private Emitter.Listener onRepCall = new Emitter.Listener() {
         @Override

@@ -9,4 +9,5 @@ public class Constants {
     public static final int OKAY  = 0;
     public static final int TILT  = 1;
     public static final int ABORT = 2;
+    public static final int REST = 3;
 }
